@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { TypeWriter } from '@/components/TypeWriter';
-import { CommandPrompt } from '@/components/CommandPrompt';
 import { Download } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { terminalSounds } from '@/utils/sounds';
 
 const suggestedCommands = [
   { cmd: 'help', desc: 'Show available commands' },
@@ -15,13 +15,75 @@ const suggestedCommands = [
 
 export default function Home() {
   const [showCommands, setShowCommands] = useState(false);
+  const [inputValue, setInputValue] = useState('');
+  const [commandHistory, setCommandHistory] = useState<string[]>([]);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (showCommands && inputRef.current) {
+      inputRef.current.focus();
+    }
+  }, [showCommands]);
+
+  const handleCommand = (cmd: string) => {
+    const trimmedCmd = cmd.trim().toLowerCase();
+    setCommandHistory([...commandHistory, `$ ${cmd}`]);
+    setInputValue('');
+
+    terminalSounds.playEnter();
+
+    switch (trimmedCmd) {
+      case 'help':
+        setCommandHistory(prev => [...prev, 'Available commands: about, skills, projects, contact, cat resume.pdf, clear']);
+        break;
+      case 'about':
+        navigate('/about');
+        break;
+      case 'skills':
+        navigate('/skills');
+        break;
+      case 'projects':
+        navigate('/projects');
+        break;
+      case 'contact':
+        navigate('/contact');
+        break;
+      case 'cat resume.pdf':
+      case 'resume':
+        window.open('/resume.pdf', '_blank');
+        setCommandHistory(prev => [...prev, 'Opening resume...']);
+        break;
+      case 'clear':
+        setCommandHistory([]);
+        break;
+      default:
+        terminalSounds.playError();
+        setCommandHistory(prev => [...prev, `Command not found: ${trimmedCmd}. Type 'help' for available commands.`]);
+    }
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter' && inputValue.trim()) {
+      handleCommand(inputValue);
+    }
+  };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    terminalSounds.playKeypress();
+    setInputValue(e.target.value);
+  };
+
+  const handleLinkClick = () => {
+    terminalSounds.playClick();
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Hero */}
-      <div className="space-y-6">
-        <div className="border-2 border-terminal-accent p-6 terminal-box-glow">
-          <div className="text-5xl md:text-7xl font-bold text-terminal-accent terminal-glow mb-4 font-mono">
+      <div className="space-y-4 md:space-y-6">
+        <div className="border-2 border-terminal-accent p-4 md:p-6 terminal-box-glow">
+          <div className="text-3xl sm:text-5xl md:text-7xl font-bold text-terminal-accent terminal-glow mb-3 md:mb-4 font-mono break-words">
             <TypeWriter
               text="SAM RANJITH PAUL"
               delay={80}
@@ -29,7 +91,7 @@ export default function Home() {
               onComplete={() => setTimeout(() => setShowCommands(true), 500)}
             />
           </div>
-          <div className="text-xl md:text-2xl text-terminal-text-dim">
+          <div className="text-lg sm:text-xl md:text-2xl text-terminal-text-dim">
             <TypeWriter text="Full-Stack Developer" delay={60} showCursor={false} />
           </div>
         </div>
@@ -41,41 +103,70 @@ export default function Home() {
               <TypeWriter text="Type a command to begin:" delay={40} showCursor={false} />
             </div>
 
-            <div className="space-y-2 pl-4">
+            <div className="space-y-2 pl-2 md:pl-4">
               {suggestedCommands.map(({ cmd, desc, link, action }) => (
-                <div key={cmd} className="flex items-start gap-3 group">
-                  <span className="text-terminal-accent-dim">$</span>
+                <div key={cmd} className="flex items-start gap-2 md:gap-3 group text-sm md:text-base">
+                  <span className="text-terminal-accent-dim flex-shrink-0">$</span>
                   {link ? (
                     <Link
                       to={link}
-                      className="flex-1 hover:text-terminal-accent transition-all terminal-glow"
+                      onClick={handleLinkClick}
+                      className="flex-1 hover:text-terminal-accent transition-all terminal-glow break-words"
                     >
                       <span className="text-terminal-accent font-semibold">{cmd}</span>
-                      <span className="text-terminal-text-dim ml-3">// {desc}</span>
+                      <span className="text-terminal-text-dim ml-2 md:ml-3">// {desc}</span>
                     </Link>
                   ) : action === 'download' ? (
                     <a
                       href="/resume.pdf"
                       download
-                      className="flex-1 hover:text-terminal-accent transition-all terminal-glow flex items-center gap-2"
+                      onClick={handleLinkClick}
+                      className="flex-1 hover:text-terminal-accent transition-all terminal-glow flex items-center gap-2 break-words"
                     >
                       <span className="text-terminal-accent font-semibold">{cmd}</span>
-                      <span className="text-terminal-text-dim ml-3">// {desc}</span>
-                      <Download className="w-4 h-4 ml-2" />
+                      <span className="text-terminal-text-dim ml-2 md:ml-3">// {desc}</span>
+                      <Download className="w-3 h-3 md:w-4 md:h-4 ml-2" />
                     </a>
                   ) : (
-                    <div className="flex-1">
+                    <div className="flex-1 break-words">
                       <span className="text-terminal-accent font-semibold">{cmd}</span>
-                      <span className="text-terminal-text-dim ml-3">// {desc}</span>
+                      <span className="text-terminal-text-dim ml-2 md:ml-3">// {desc}</span>
                     </div>
                   )}
                 </div>
               ))}
             </div>
 
-            {/* Interactive Prompt */}
-            <div className="mt-8 pt-6 border-t border-terminal-border">
-              <CommandPrompt user="sam" />
+            {/* Command History */}
+            {commandHistory.length > 0 && (
+              <div className="mt-4 space-y-1 text-sm md:text-base">
+                {commandHistory.map((line, idx) => (
+                  <div key={idx} className="text-terminal-text-dim">
+                    {line}
+                  </div>
+                ))}
+              </div>
+            )}
+
+            {/* Interactive Input */}
+            <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-terminal-border">
+              <div className="flex items-center gap-2">
+                <span className="text-terminal-accent-dim text-sm md:text-base">sam@terminal</span>
+                <span className="text-terminal-text-dim">:</span>
+                <span className="text-terminal-accent-bright">~</span>
+                <span className="text-terminal-text-dim">$</span>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={inputValue}
+                  onChange={handleInputChange}
+                  onKeyDown={handleKeyDown}
+                  className="flex-1 bg-transparent border-none outline-none text-terminal-text caret-terminal-accent text-sm md:text-base"
+                  placeholder="type 'help' for commands..."
+                  autoComplete="off"
+                  spellCheck="false"
+                />
+              </div>
             </div>
           </div>
         )}

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import { terminalSounds } from '@/utils/sounds';
 
 type TerminalTheme = 'green' | 'purple' | 'white' | 'grey';
 type CursorStyle = 'block' | 'underscore';
@@ -25,6 +26,10 @@ export const TerminalProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   useEffect(() => {
     document.documentElement.setAttribute('data-terminal-theme', theme);
   }, [theme]);
+
+  useEffect(() => {
+    terminalSounds.setEnabled(soundEnabled);
+  }, [soundEnabled]);
 
   const toggleScanlines = () => setScanlinesEnabled(prev => !prev);
   const toggleSound = () => setSoundEnabled(prev => !prev);

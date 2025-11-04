@@ -1,18 +1,34 @@
 import React from 'react';
 import { useTerminal } from '@/contexts/TerminalContext';
-import { Terminal, Volume2, VolumeX, Minimize2, Maximize2, X } from 'lucide-react';
+import { Terminal, Volume2, VolumeX, X } from 'lucide-react';
+import { terminalSounds } from '@/utils/sounds';
 
 export const TerminalHeader: React.FC = () => {
   const { 
     theme, 
     setTheme, 
-    cursorStyle, 
-    setCursorStyle,
-    scanlinesEnabled, 
-    toggleScanlines,
     soundEnabled,
     toggleSound
   } = useTerminal();
+
+  const handleClose = () => {
+    terminalSounds.playClick();
+    window.close();
+    // Fallback: navigate to a blank page if window.close() doesn't work
+    setTimeout(() => {
+      window.location.href = 'about:blank';
+    }, 100);
+  };
+
+  const handleThemeClick = (themeName: any) => {
+    terminalSounds.playClick();
+    setTheme(themeName);
+  };
+
+  const handleSoundToggle = () => {
+    terminalSounds.playClick();
+    toggleSound();
+  };
 
   const themes = [
     { name: 'green', label: 'Matrix' },
@@ -22,19 +38,19 @@ export const TerminalHeader: React.FC = () => {
   ] as const;
 
   return (
-    <div className="flex items-center justify-between mb-6 pb-4 border-b border-terminal-border">
-      <div className="flex items-center gap-3">
-        <Terminal className="w-5 h-5 text-terminal-accent terminal-glow" />
-        <span className="text-terminal-text-dim text-sm">terminal v1.0.0</span>
+    <div className="flex items-center justify-between mb-4 md:mb-6 pb-3 md:pb-4 border-b border-terminal-border">
+      <div className="flex items-center gap-2 md:gap-3">
+        <Terminal className="w-4 h-4 md:w-5 md:h-5 text-terminal-accent terminal-glow" />
+        <span className="text-terminal-text-dim text-xs md:text-sm hidden sm:inline">terminal v1.0.0</span>
       </div>
 
-      <div className="flex items-center gap-4">
-        {/* Theme Selector */}
-        <div className="flex gap-2">
+      <div className="flex items-center gap-2 md:gap-4">
+        {/* Theme Selector - Hidden on small mobile */}
+        <div className="hidden sm:flex gap-2">
           {themes.map(({ name, label }) => (
             <button
               key={name}
-              onClick={() => setTheme(name)}
+              onClick={() => handleThemeClick(name)}
               className={`px-2 py-1 text-xs rounded transition-all ${
                 theme === name
                   ? 'bg-terminal-accent text-terminal-bg terminal-box-glow'
@@ -47,39 +63,23 @@ export const TerminalHeader: React.FC = () => {
           ))}
         </div>
 
-        {/* Cursor Style Toggle */}
-        <button
-          onClick={() => setCursorStyle(cursorStyle === 'block' ? 'underscore' : 'block')}
-          className="px-2 py-1 text-xs bg-terminal-surface text-terminal-text-dim hover:text-terminal-text rounded transition-all"
-          title="Toggle cursor style"
-        >
-          {cursorStyle === 'block' ? '█' : '_'}
-        </button>
-
-        {/* Scanlines Toggle */}
-        <button
-          onClick={toggleScanlines}
-          className="px-2 py-1 text-xs bg-terminal-surface text-terminal-text-dim hover:text-terminal-text rounded transition-all"
-          title="Toggle scanlines"
-        >
-          {scanlinesEnabled ? <Maximize2 className="w-3 h-3" /> : <Minimize2 className="w-3 h-3" />}
-        </button>
-
         {/* Sound Toggle */}
         <button
-          onClick={toggleSound}
-          className="px-2 py-1 text-xs bg-terminal-surface text-terminal-text-dim hover:text-terminal-text rounded transition-all"
+          onClick={handleSoundToggle}
+          className="p-1.5 md:p-2 bg-terminal-surface text-terminal-text-dim hover:text-terminal-accent rounded transition-all hover:terminal-box-glow"
           title="Toggle sound effects"
         >
-          {soundEnabled ? <Volume2 className="w-3 h-3" /> : <VolumeX className="w-3 h-3" />}
+          {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
         </button>
 
-        {/* Decorative Window Controls */}
-        <div className="flex gap-1.5 ml-2">
-          <div className="w-3 h-3 rounded-full bg-terminal-accent-dim opacity-50" />
-          <div className="w-3 h-3 rounded-full bg-terminal-accent-dim opacity-50" />
-          <div className="w-3 h-3 rounded-full bg-terminal-accent-dim opacity-50" />
-        </div>
+        {/* Close Button */}
+        <button
+          onClick={handleClose}
+          className="p-1.5 md:p-2 bg-red-900/30 hover:bg-red-900/50 text-red-400 hover:text-red-300 rounded transition-all border border-red-900/50"
+          title="Close terminal"
+        >
+          <X className="w-4 h-4" />
+        </button>
       </div>
     </div>
   );
