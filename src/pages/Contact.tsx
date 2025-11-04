@@ -1,0 +1,161 @@
+import React, { useState } from 'react';
+import { TypeWriter } from '@/components/TypeWriter';
+import { Github, Linkedin, Mail, Download, Send } from 'lucide-react';
+import { toast } from 'sonner';
+
+export default function Contact() {
+  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showForm, setShowForm] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Simulate submission
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    toast.success('Message sent successfully!', {
+      description: 'I\'ll get back to you soon.',
+    });
+
+    setFormData({ name: '', email: '', message: '' });
+    setIsSubmitting(false);
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Command Output Header */}
+      <div className="flex items-center gap-2 text-terminal-text-dim text-sm mb-6">
+        <span className="text-terminal-accent">$</span>
+        <TypeWriter
+          text="contact --info"
+          delay={50}
+          showCursor={false}
+          onComplete={() => setTimeout(() => setShowForm(true), 300)}
+        />
+      </div>
+
+      {showForm && (
+        <div className="space-y-8 pl-4">
+          {/* Contact Info */}
+          <div className="space-y-4">
+            <div className="text-terminal-accent terminal-glow font-semibold mb-4">
+              [CONTACT INFORMATION]
+            </div>
+
+            <div className="space-y-3">
+              {[
+                {
+                  icon: Mail,
+                  label: 'Email',
+                  value: 'sam@example.com',
+                  href: 'mailto:sam@example.com',
+                },
+                {
+                  icon: Github,
+                  label: 'GitHub',
+                  value: '@samranjithpaul',
+                  href: 'https://github.com/samranjithpaul',
+                },
+                {
+                  icon: Linkedin,
+                  label: 'LinkedIn',
+                  value: '/samranjithpaul',
+                  href: 'https://linkedin.com/in/samranjithpaul',
+                },
+              ].map(({ icon: Icon, label, value, href }) => (
+                <a
+                  key={label}
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-3 text-terminal-text-dim hover:text-terminal-accent transition-all group"
+                >
+                  <Icon className="w-4 h-4 group-hover:terminal-glow" />
+                  <span className="text-terminal-accent-dim w-24">{label}:</span>
+                  <span className="group-hover:terminal-glow">{value}</span>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Resume Download */}
+          <div className="pt-6 border-t border-terminal-border">
+            <a
+              href="/resume.pdf"
+              download
+              className="inline-flex items-center gap-3 px-4 py-2 bg-terminal-surface border border-terminal-accent text-terminal-accent hover:bg-terminal-accent hover:text-terminal-bg transition-all terminal-box-glow"
+            >
+              <Download className="w-4 h-4" />
+              <span>Download Resume</span>
+            </a>
+          </div>
+
+          {/* Contact Form */}
+          <div className="pt-6 border-t border-terminal-border">
+            <div className="text-terminal-accent terminal-glow font-semibold mb-4">
+              [SEND MESSAGE]
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <label className="text-terminal-text-dim text-sm flex items-center gap-2">
+                  <span className="text-terminal-accent-dim">$</span>
+                  <span>name:</span>
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  className="w-full bg-terminal-surface border border-terminal-border text-terminal-text px-3 py-2 focus:border-terminal-accent focus:outline-none transition-all font-mono"
+                  placeholder="Your name"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-terminal-text-dim text-sm flex items-center gap-2">
+                  <span className="text-terminal-accent-dim">$</span>
+                  <span>email:</span>
+                </label>
+                <input
+                  type="email"
+                  required
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  className="w-full bg-terminal-surface border border-terminal-border text-terminal-text px-3 py-2 focus:border-terminal-accent focus:outline-none transition-all font-mono"
+                  placeholder="your@email.com"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-terminal-text-dim text-sm flex items-center gap-2">
+                  <span className="text-terminal-accent-dim">$</span>
+                  <span>message:</span>
+                </label>
+                <textarea
+                  required
+                  value={formData.message}
+                  onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+                  rows={6}
+                  className="w-full bg-terminal-surface border border-terminal-border text-terminal-text px-3 py-2 focus:border-terminal-accent focus:outline-none transition-all font-mono resize-none"
+                  placeholder="Your message..."
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="inline-flex items-center gap-3 px-4 py-2 bg-terminal-accent text-terminal-bg hover:bg-terminal-accent-bright transition-all disabled:opacity-50 disabled:cursor-not-allowed terminal-box-glow"
+              >
+                <Send className="w-4 h-4" />
+                <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

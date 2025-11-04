@@ -8,98 +8,213 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
-
-    --radius: 0.5rem;
-
-    --sidebar-background: 0 0% 98%;
-
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Terminal Base Colors */
+    --terminal-bg: 0 0% 4%;
+    --terminal-surface: 0 0% 8%;
+    --terminal-border: 0 0% 15%;
+    
+    /* Theme: Green (default) */
+    --terminal-accent: 120 100% 50%;
+    --terminal-accent-dim: 120 100% 35%;
+    --terminal-accent-bright: 120 100% 65%;
+    --terminal-text: 120 20% 85%;
+    --terminal-text-dim: 120 10% 60%;
+    
+    /* Effects */
+    --terminal-glow: 120 100% 50%;
+    --terminal-scanline: 0 0% 100%;
+    
+    /* Shadows & Glows */
+    --shadow-glow: 0 0 20px hsl(var(--terminal-glow) / 0.3),
+                   0 0 40px hsl(var(--terminal-glow) / 0.1);
+    --text-glow: 0 0 8px hsl(var(--terminal-glow) / 0.6);
+    
+    /* Transitions */
+    --transition-theme: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* Cursor */
+    --cursor-blink: 1s;
+    
+    /* Standard tokens for compatibility */
+    --background: 0 0% 4%;
+    --foreground: 120 20% 85%;
+    --card: 0 0% 8%;
+    --card-foreground: 120 20% 85%;
+    --primary: 120 100% 50%;
+    --primary-foreground: 0 0% 4%;
+    --radius: 0.25rem;
   }
 
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+  /* Theme: Purple */
+  [data-terminal-theme="purple"] {
+    --terminal-accent: 280 100% 70%;
+    --terminal-accent-dim: 280 100% 50%;
+    --terminal-accent-bright: 280 100% 85%;
+    --terminal-text: 280 20% 85%;
+    --terminal-text-dim: 280 10% 60%;
+    --terminal-glow: 280 100% 70%;
+    --primary: 280 100% 70%;
+  }
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+  /* Theme: White */
+  [data-terminal-theme="white"] {
+    --terminal-accent: 0 0% 95%;
+    --terminal-accent-dim: 0 0% 75%;
+    --terminal-accent-bright: 0 0% 100%;
+    --terminal-text: 0 0% 90%;
+    --terminal-text-dim: 0 0% 65%;
+    --terminal-glow: 0 0% 95%;
+    --primary: 0 0% 95%;
+  }
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+  /* Theme: Grey */
+  [data-terminal-theme="grey"] {
+    --terminal-accent: 0 0% 70%;
+    --terminal-accent-dim: 0 0% 50%;
+    --terminal-accent-bright: 0 0% 85%;
+    --terminal-text: 0 0% 80%;
+    --terminal-text-dim: 0 0% 55%;
+    --terminal-glow: 0 0% 70%;
+    --primary: 0 0% 70%;
   }
 }
 
 @layer base {
   * {
-    @apply border-border;
+    border-color: hsl(var(--terminal-border));
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[hsl(var(--terminal-bg))] text-[hsl(var(--terminal-text))] font-mono antialiased;
+    font-family: 'Fira Code', 'Courier New', monospace;
+    transition: var(--transition-theme);
+  }
+}
+
+@layer utilities {
+  /* Terminal Effects */
+  .terminal-glow {
+    text-shadow: var(--text-glow);
+  }
+  
+  .terminal-box-glow {
+    box-shadow: var(--shadow-glow);
+  }
+  
+  /* Scanline Effect */
+  .scanlines {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .scanlines::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 50%,
+      hsl(var(--terminal-scanline) / 0.03) 51%
+    );
+    background-size: 100% 4px;
+    pointer-events: none;
+    animation: scanline 8s linear infinite;
+    z-index: 50;
+  }
+  
+  @keyframes scanline {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(4px);
+    }
+  }
+  
+  /* Cursor Animations */
+  .cursor-block {
+    display: inline-block;
+    width: 0.6em;
+    height: 1.2em;
+    background: hsl(var(--terminal-accent));
+    animation: blink-block var(--cursor-blink) step-end infinite;
+    vertical-align: text-bottom;
+  }
+  
+  .cursor-underscore {
+    display: inline-block;
+    width: 0.6em;
+    height: 2px;
+    background: hsl(var(--terminal-accent));
+    animation: blink-underscore var(--cursor-blink) step-end infinite;
+    vertical-align: baseline;
+    margin-left: 2px;
+  }
+  
+  @keyframes blink-block {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
+  
+  @keyframes blink-underscore {
+    0%, 50% {
+      opacity: 1;
+    }
+    51%, 100% {
+      opacity: 0;
+    }
+  }
+  
+  /* Glow Pulse */
+  .glow-pulse {
+    animation: glow-pulse-anim 2s ease-in-out infinite;
+  }
+  
+  @keyframes glow-pulse-anim {
+    0%, 100% {
+      opacity: 1;
+      filter: drop-shadow(0 0 8px hsl(var(--terminal-glow) / 0.6));
+    }
+    50% {
+      opacity: 0.8;
+      filter: drop-shadow(0 0 12px hsl(var(--terminal-glow) / 0.8));
+    }
+  }
+  
+  /* Typing Animation */
+  .typing {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 2s steps(40) forwards;
+  }
+  
+  @keyframes typing {
+    from {
+      width: 0;
+    }
+    to {
+      width: 100%;
+    }
+  }
+  
+  /* Flicker Effect */
+  .flicker {
+    animation: flicker 0.15s infinite alternate;
+  }
+  
+  @keyframes flicker {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.95;
+    }
   }
 }
