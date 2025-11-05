@@ -13,25 +13,25 @@ export const Navigation: React.FC = () => {
   const location = useLocation();
 
   return (
-    <nav className="mb-8">
-      <div className="flex flex-wrap gap-4 text-sm">
+    <nav className="mb-6 md:mb-8">
+      <div className="flex flex-wrap gap-3 md:gap-4 text-xs sm:text-sm">
         {navItems.map(({ path, label, command }) => {
           const isActive = location.pathname === path;
           return (
             <Link
               key={path}
               to={path}
-              className={`group flex items-center gap-2 transition-all ${
+              className={`group flex items-center gap-1.5 sm:gap-2 transition-all ${
                 isActive
                   ? 'text-terminal-accent terminal-glow'
                   : 'text-terminal-text-dim hover:text-terminal-text'
               }`}
             >
-              <span className="text-terminal-accent-dim">$</span>
-              <span className="group-hover:terminal-glow transition-all">
+              <span className="text-terminal-accent-dim flex-shrink-0">$</span>
+              <span className="group-hover:terminal-glow transition-all break-all">
                 {command}
               </span>
-              {isActive && <span className="text-terminal-accent">→</span>}
+              {isActive && <span className="text-terminal-accent flex-shrink-0">→</span>}
             </Link>
           );
         })}

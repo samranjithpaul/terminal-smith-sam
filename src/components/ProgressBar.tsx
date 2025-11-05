@@ -32,10 +32,10 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
   const emptyBars = maxWidth - filledBars;
 
   return (
-    <div className={`flex items-center gap-3 ${className}`}>
-      <span className="text-terminal-text-dim w-28 text-right">{label}</span>
-      <span className="text-terminal-accent-dim">[</span>
-      <div className="flex transition-all duration-500">
+    <div className={`flex items-center gap-2 sm:gap-3 text-xs sm:text-sm ${className}`}>
+      <span className="text-terminal-text-dim w-20 sm:w-28 text-right flex-shrink-0">{label}</span>
+      <span className="text-terminal-accent-dim flex-shrink-0">[</span>
+      <div className="flex transition-all duration-500 min-w-0">
         {[...Array(filledBars)].map((_, i) => (
           <span key={`filled-${i}`} className="text-terminal-accent">
             ═
@@ -47,8 +47,8 @@ export const ProgressBar: React.FC<ProgressBarProps> = ({
           </span>
         ))}
       </div>
-      <span className="text-terminal-accent-dim">]</span>
-      <span className="text-terminal-accent w-12 text-right terminal-glow">
+      <span className="text-terminal-accent-dim flex-shrink-0">]</span>
+      <span className="text-terminal-accent w-8 sm:w-12 text-right terminal-glow flex-shrink-0">
         {currentPercentage}%
       </span>
     </div>

@@ -67,9 +67,9 @@ export default function Projects() {
   const [showProjects, setShowProjects] = useState(false);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Command Output Header */}
-      <div className="flex items-center gap-2 text-terminal-text-dim text-sm mb-6">
+      <div className="flex items-center gap-2 text-terminal-text-dim text-xs sm:text-sm mb-4 md:mb-6">
         <span className="text-terminal-accent">$</span>
         <TypeWriter
           text="show projects --detailed"
@@ -81,8 +81,8 @@ export default function Projects() {
 
       {/* Directory Listing */}
       {showProjects && (
-        <div className="space-y-4 pl-4">
-          <div className="text-terminal-text-dim text-sm mb-4">
+        <div className="space-y-3 md:space-y-4 pl-2 sm:pl-4">
+          <div className="text-terminal-text-dim text-xs sm:text-sm mb-3 md:mb-4">
             <TypeWriter
               text={`total ${projects.length} projects`}
               delay={30}
@@ -98,33 +98,33 @@ export default function Projects() {
                 {/* Project Header */}
                 <button
                   onClick={() => setExpandedProject(isExpanded ? null : project.id)}
-                  className="w-full flex items-start gap-3 text-left group hover:bg-terminal-surface p-3 rounded transition-all"
+                  className="w-full flex items-start gap-2 sm:gap-3 text-left group hover:bg-terminal-surface p-2 sm:p-3 rounded transition-all"
                 >
                   <ChevronRight
-                    className={`w-4 h-4 text-terminal-accent-dim mt-1 transition-transform ${
+                    className={`w-3 h-3 sm:w-4 sm:h-4 text-terminal-accent-dim mt-1 flex-shrink-0 transition-transform ${
                       isExpanded ? 'rotate-90' : ''
                     }`}
                   />
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className="text-terminal-accent terminal-glow font-semibold">
+                  <div className="flex-1 min-w-0">
+                    <div className="flex flex-wrap items-center gap-2 mb-1">
+                      <span className="text-terminal-accent terminal-glow font-semibold text-sm sm:text-base break-all">
                         {project.name}/
                       </span>
-                      <span className="text-terminal-text-dim text-xs">
-                        [{project.tech.length} technologies]
+                      <span className="text-terminal-text-dim text-xs flex-shrink-0">
+                        [{project.tech.length} tech]
                       </span>
                     </div>
-                    <p className="text-terminal-text-dim text-sm">{project.description}</p>
+                    <p className="text-terminal-text-dim text-xs sm:text-sm">{project.description}</p>
                   </div>
                 </button>
 
                 {/* Expanded Content */}
                 {isExpanded && (
-                  <div className="pl-10 space-y-4 animate-fade-in">
+                  <div className="pl-5 sm:pl-10 space-y-3 md:space-y-4 animate-fade-in">
                     {/* Tech Stack */}
                     <div>
-                      <div className="text-terminal-accent-dim text-sm mb-2">Tech Stack:</div>
-                      <div className="flex flex-wrap gap-2">
+                      <div className="text-terminal-accent-dim text-xs sm:text-sm mb-2">Tech Stack:</div>
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {project.tech.map((tech) => (
                           <span
                             key={tech}
@@ -138,10 +138,10 @@ export default function Projects() {
 
                     {/* Build Log */}
                     <div>
-                      <div className="text-terminal-accent-dim text-sm mb-2">Build Log:</div>
-                      <div className="bg-terminal-surface p-3 rounded border border-terminal-border space-y-1">
+                      <div className="text-terminal-accent-dim text-xs sm:text-sm mb-2">Build Log:</div>
+                      <div className="bg-terminal-surface p-2 sm:p-3 rounded border border-terminal-border space-y-1">
                         {project.buildLog.map((log, i) => (
-                          <div key={i} className="text-terminal-text-dim text-xs font-mono">
+                          <div key={i} className="text-terminal-text-dim text-xs font-mono break-all">
                             <TypeWriter text={log} delay={20} showCursor={false} />
                           </div>
                         ))}
@@ -149,26 +149,26 @@ export default function Projects() {
                     </div>
 
                     {/* Links */}
-                    <div className="flex gap-4">
+                    <div className="flex flex-wrap gap-3 sm:gap-4">
                       <a
                         href={project.github}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-2 text-terminal-text-dim hover:text-terminal-accent transition-all group"
+                        className="flex items-center gap-1.5 sm:gap-2 text-terminal-text-dim hover:text-terminal-accent transition-all group"
                       >
-                        <Github className="w-4 h-4 group-hover:terminal-glow" />
-                        <span className="text-sm">Source</span>
-                        <ExternalLink className="w-3 h-3" />
+                        <Github className="w-3 h-3 sm:w-4 sm:h-4 group-hover:terminal-glow flex-shrink-0" />
+                        <span className="text-xs sm:text-sm">Source</span>
+                        <ExternalLink className="w-2.5 h-2.5 sm:w-3 sm:h-3 flex-shrink-0" />
                       </a>
                       {project.live && (
                         <a
                           href={project.live}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="flex items-center gap-2 text-terminal-text-dim hover:text-terminal-accent transition-all group"
+                          className="flex items-center gap-1.5 sm:gap-2 text-terminal-text-dim hover:text-terminal-accent transition-all group"
                         >
-                          <ExternalLink className="w-4 h-4 group-hover:terminal-glow" />
-                          <span className="text-sm">Live Demo</span>
+                          <ExternalLink className="w-3 h-3 sm:w-4 sm:h-4 group-hover:terminal-glow flex-shrink-0" />
+                          <span className="text-xs sm:text-sm">Live Demo</span>
                         </a>
                       )}
                     </div>
@@ -179,7 +179,7 @@ export default function Projects() {
           })}
 
           {/* Summary */}
-          <div className="pt-6 border-t border-terminal-border text-terminal-text-dim text-sm">
+          <div className="pt-4 md:pt-6 border-t border-terminal-border text-terminal-text-dim text-xs sm:text-sm">
             <TypeWriter
               text="Use arrow keys or click to expand project details. All source code available on GitHub."
               delay={20}

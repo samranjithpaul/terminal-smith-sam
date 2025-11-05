@@ -46,9 +46,9 @@ export default function Skills() {
   const [currentCategory, setCurrentCategory] = useState(0);
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 md:space-y-6">
       {/* Command Output Header */}
-      <div className="flex items-center gap-2 text-terminal-text-dim text-sm mb-6">
+      <div className="flex items-center gap-2 text-terminal-text-dim text-xs sm:text-sm mb-4 md:mb-6">
         <span className="text-terminal-accent">$</span>
         <TypeWriter
           text="list --skills --verbose"
@@ -60,11 +60,11 @@ export default function Skills() {
 
       {/* Loading Animation */}
       {loadingComplete && (
-        <div className="space-y-2 pl-4 mb-6">
-          <div className="text-terminal-text-dim text-sm">
+        <div className="space-y-1.5 md:space-y-2 pl-2 sm:pl-4 mb-4 md:mb-6">
+          <div className="text-terminal-text-dim text-xs sm:text-sm">
             <TypeWriter text="[INFO] Loading skill database..." delay={30} showCursor={false} />
           </div>
-          <div className="text-terminal-accent-dim text-sm">
+          <div className="text-terminal-accent-dim text-xs sm:text-sm">
             <TypeWriter
               text="[OK] Skills loaded successfully."
               delay={30}
@@ -77,22 +77,22 @@ export default function Skills() {
 
       {/* Skills Display */}
       {loadingComplete && (
-        <div className="space-y-8 pl-4">
+        <div className="space-y-6 md:space-y-8 pl-2 sm:pl-4">
           {skillCategories.map((category, catIndex) => (
             <div
               key={category.category}
-              className={`space-y-4 transition-all duration-500 ${
+              className={`space-y-3 md:space-y-4 transition-all duration-500 ${
                 currentCategory > catIndex ? 'opacity-100' : 'opacity-0'
               }`}
             >
-              <div className="flex items-center gap-3 mb-4">
-                <span className="text-terminal-accent terminal-glow font-semibold">
+              <div className="flex items-center gap-2 sm:gap-3 mb-3 md:mb-4">
+                <span className="text-terminal-accent terminal-glow font-semibold text-xs sm:text-sm md:text-base">
                   [{category.category.toUpperCase()}]
                 </span>
                 <div className="flex-1 h-px bg-terminal-border" />
               </div>
 
-              <div className="space-y-3">
+              <div className="space-y-2 md:space-y-3">
                 {category.skills.map((skill) => (
                   <ProgressBar
                     key={skill.name}
@@ -108,8 +108,8 @@ export default function Skills() {
 
           {/* Summary */}
           {currentCategory >= skillCategories.length && (
-            <div className="pt-6 border-t border-terminal-border space-y-2">
-              <div className="text-terminal-text-dim text-sm">
+            <div className="pt-4 md:pt-6 border-t border-terminal-border space-y-1.5 md:space-y-2">
+              <div className="text-terminal-text-dim text-xs sm:text-sm">
                 <TypeWriter
                   text="[SUMMARY] Proficient across full-stack development. Focus on scalable architecture and clean implementation."
                   delay={20}
