@@ -13,8 +13,8 @@ export const Navigation: React.FC = () => {
   const location = useLocation();
 
   return (
-    <nav className="mb-6 md:mb-8">
-      <div className="flex flex-wrap gap-3 md:gap-4 text-xs sm:text-sm">
+    <nav className="mb-6 md:mb-8 lg:mb-10">
+      <div className="flex flex-wrap gap-3 md:gap-4 lg:gap-6 text-xs sm:text-sm lg:text-base">
         {navItems.map(({ path, label, command }) => {
           const isActive = location.pathname === path;
           return (

@@ -81,8 +81,8 @@ export default function Projects() {
 
       {/* Directory Listing */}
       {showProjects && (
-        <div className="space-y-3 md:space-y-4 pl-2 sm:pl-4">
-          <div className="text-terminal-text-dim text-xs sm:text-sm mb-3 md:mb-4">
+        <div className="space-y-3 md:space-y-4 lg:space-y-5 pl-2 sm:pl-4 lg:pl-6">
+          <div className="text-terminal-text-dim text-xs sm:text-sm lg:text-base mb-3 md:mb-4">
             <TypeWriter
               text={`total ${projects.length} projects`}
               delay={30}
@@ -98,23 +98,23 @@ export default function Projects() {
                 {/* Project Header */}
                 <button
                   onClick={() => setExpandedProject(isExpanded ? null : project.id)}
-                  className="w-full flex items-start gap-2 sm:gap-3 text-left group hover:bg-terminal-surface p-2 sm:p-3 rounded transition-all"
+                  className="w-full flex items-start gap-2 sm:gap-3 lg:gap-4 text-left group hover:bg-terminal-surface p-2 sm:p-3 lg:p-4 rounded transition-all"
                 >
                   <ChevronRight
-                    className={`w-3 h-3 sm:w-4 sm:h-4 text-terminal-accent-dim mt-1 flex-shrink-0 transition-transform ${
+                    className={`w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 text-terminal-accent-dim mt-1 flex-shrink-0 transition-transform ${
                       isExpanded ? 'rotate-90' : ''
                     }`}
                   />
                   <div className="flex-1 min-w-0">
                     <div className="flex flex-wrap items-center gap-2 mb-1">
-                      <span className="text-terminal-accent terminal-glow font-semibold text-sm sm:text-base break-all">
+                      <span className="text-terminal-accent terminal-glow font-semibold text-sm sm:text-base lg:text-xl break-all">
                         {project.name}/
                       </span>
-                      <span className="text-terminal-text-dim text-xs flex-shrink-0">
+                      <span className="text-terminal-text-dim text-xs lg:text-sm flex-shrink-0">
                         [{project.tech.length} tech]
                       </span>
                     </div>
-                    <p className="text-terminal-text-dim text-xs sm:text-sm">{project.description}</p>
+                    <p className="text-terminal-text-dim text-xs sm:text-sm lg:text-base">{project.description}</p>
                   </div>
                 </button>
 

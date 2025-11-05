@@ -79,11 +79,11 @@ export default function Home() {
   };
 
   return (
-    <div className="space-y-4 md:space-y-6">
+    <div className="space-y-4 md:space-y-6 lg:space-y-8">
       {/* Hero */}
-      <div className="space-y-4 md:space-y-6">
-        <div className="border-2 border-terminal-accent p-4 md:p-6 terminal-box-glow">
-          <div className="text-3xl sm:text-5xl md:text-7xl font-bold text-terminal-accent terminal-glow mb-3 md:mb-4 font-mono break-words">
+      <div className="space-y-4 md:space-y-6 lg:space-y-8">
+        <div className="border-2 border-terminal-accent p-4 md:p-6 lg:p-8 terminal-box-glow">
+          <div className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-terminal-accent terminal-glow mb-3 md:mb-4 lg:mb-6 font-mono break-words">
             <TypeWriter
               text="SAM RANJITH PAUL"
               delay={80}
@@ -91,21 +91,21 @@ export default function Home() {
               onComplete={() => setTimeout(() => setShowCommands(true), 500)}
             />
           </div>
-          <div className="text-lg sm:text-xl md:text-2xl text-terminal-text-dim">
+          <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl text-terminal-text-dim">
             <TypeWriter text="Full-Stack Developer" delay={60} showCursor={false} />
           </div>
         </div>
 
         {/* Command Suggestions */}
         {showCommands && (
-          <div className="space-y-4">
-            <div className="text-terminal-text mb-3">
+          <div className="space-y-4 lg:space-y-6">
+            <div className="text-terminal-text mb-3 text-sm md:text-base lg:text-lg">
               <TypeWriter text="Type a command to begin:" delay={40} showCursor={false} />
             </div>
 
-            <div className="space-y-2 pl-2 md:pl-4">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-3 lg:gap-4 pl-2 md:pl-4">
               {suggestedCommands.map(({ cmd, desc, link, action }) => (
-                <div key={cmd} className="flex items-start gap-2 md:gap-3 group text-sm md:text-base">
+                <div key={cmd} className="flex items-start gap-2 md:gap-3 group text-sm md:text-base lg:text-lg">
                   <span className="text-terminal-accent-dim flex-shrink-0">$</span>
                   {link ? (
                     <Link
@@ -125,7 +125,7 @@ export default function Home() {
                     >
                       <span className="text-terminal-accent font-semibold">{cmd}</span>
                       <span className="text-terminal-text-dim ml-2 md:ml-3">// {desc}</span>
-                      <Download className="w-3 h-3 md:w-4 md:h-4 ml-2" />
+                      <Download className="w-3 h-3 md:w-4 md:h-4 lg:w-5 lg:h-5 ml-2" />
                     </a>
                   ) : (
                     <div className="flex-1 break-words">
@@ -139,7 +139,7 @@ export default function Home() {
 
             {/* Command History */}
             {commandHistory.length > 0 && (
-              <div className="mt-4 space-y-1 text-sm md:text-base">
+              <div className="mt-4 lg:mt-6 space-y-1 text-sm md:text-base lg:text-lg">
                 {commandHistory.map((line, idx) => (
                   <div key={idx} className="text-terminal-text-dim">
                     {line}
@@ -149,9 +149,9 @@ export default function Home() {
             )}
 
             {/* Interactive Input */}
-            <div className="mt-6 md:mt-8 pt-4 md:pt-6 border-t border-terminal-border">
-              <div className="flex items-center gap-2">
-                <span className="text-terminal-accent-dim text-sm md:text-base">sam@terminal</span>
+            <div className="mt-6 md:mt-8 lg:mt-10 pt-4 md:pt-6 border-t border-terminal-border">
+              <div className="flex items-center gap-2 text-sm md:text-base lg:text-lg">
+                <span className="text-terminal-accent-dim">sam@terminal</span>
                 <span className="text-terminal-text-dim">:</span>
                 <span className="text-terminal-accent-bright">~</span>
                 <span className="text-terminal-text-dim">$</span>
@@ -161,7 +161,7 @@ export default function Home() {
                   value={inputValue}
                   onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
-                  className="flex-1 bg-transparent border-none outline-none text-terminal-text caret-terminal-accent text-sm md:text-base"
+                  className="flex-1 bg-transparent border-none outline-none text-terminal-text caret-terminal-accent"
                   placeholder="type 'help' for commands..."
                   autoComplete="off"
                   spellCheck="false"

@@ -12,9 +12,9 @@ export default function About() {
       </div>
 
       {/* Content */}
-      <div className="space-y-4 md:space-y-6 pl-2 sm:pl-4">
-        <div className="border-l-2 border-terminal-accent pl-3 sm:pl-4 space-y-3 md:space-y-4">
-          <div className="text-terminal-text text-sm sm:text-base">
+      <div className="space-y-4 md:space-y-6 lg:space-y-8 pl-2 sm:pl-4 lg:pl-6">
+        <div className="border-l-2 border-terminal-accent pl-3 sm:pl-4 lg:pl-6 space-y-3 md:space-y-4 lg:space-y-6 max-w-4xl">
+          <div className="text-terminal-text text-sm sm:text-base lg:text-xl">
             <TypeWriter
               text="Full-stack developer. Building fast, scalable web applications."
               delay={30}
@@ -22,7 +22,7 @@ export default function About() {
             />
           </div>
 
-          <div className="text-terminal-text-dim text-xs sm:text-sm space-y-2 md:space-y-3">
+          <div className="text-terminal-text-dim text-xs sm:text-sm lg:text-lg space-y-2 md:space-y-3 lg:space-y-4">
             <p>
               Specialized in modern web technologies. React, TypeScript, Node.js. Backend APIs,
               database design, cloud infrastructure.
