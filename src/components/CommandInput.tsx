@@ -72,10 +72,10 @@ export const CommandInput: React.FC = () => {
         </div>
       )}
       
-      <div className="flex items-center gap-2 text-sm md:text-base lg:text-lg">
-        <span className="text-terminal-accent-dim">sam@terminal</span>
-        <span className="text-terminal-text-dim">:</span>
-        <span className="text-terminal-accent-bright">~{location.pathname}</span>
+      <div className="flex items-center gap-1.5 sm:gap-2 text-xs sm:text-sm md:text-base lg:text-lg">
+        <span className="hidden sm:inline text-terminal-accent-dim">sam@terminal</span>
+        <span className="hidden sm:inline text-terminal-text-dim">:</span>
+        <span className="hidden md:inline text-terminal-accent-bright">~{location.pathname}</span>
         <span className="text-terminal-text-dim">$</span>
         <input
           ref={inputRef}
@@ -83,8 +83,8 @@ export const CommandInput: React.FC = () => {
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          className="flex-1 bg-transparent border-none outline-none text-terminal-text caret-terminal-accent"
-          placeholder="type 'help' for commands..."
+          className="flex-1 bg-transparent border-none outline-none text-terminal-text caret-terminal-accent min-w-0"
+          placeholder="type command..."
           autoComplete="off"
           spellCheck="false"
         />
