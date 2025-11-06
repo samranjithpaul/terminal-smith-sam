@@ -46,7 +46,7 @@ export default function Skills() {
   const [currentCategory, setCurrentCategory] = useState(0);
 
   return (
-    <div className="space-y-4 md:space-y-6">
+    <div className="space-y-4 md:space-y-6 animate-fade-in">
       {/* Command Output Header */}
       <div className="flex items-center gap-2 text-terminal-text-dim text-xs sm:text-sm mb-4 md:mb-6">
         <span className="text-terminal-accent">$</span>

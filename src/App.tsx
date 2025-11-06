@@ -7,6 +7,7 @@ import { TerminalProvider } from "@/contexts/TerminalContext";
 import { TerminalWindow } from "@/components/TerminalWindow";
 import { TerminalHeader } from "@/components/TerminalHeader";
 import { Navigation } from "@/components/Navigation";
+import { CommandInput } from "@/components/CommandInput";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Skills from "./pages/Skills";
@@ -34,6 +35,7 @@ const App = () => (
               <Route path="/contact" element={<Contact />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <CommandInput />
           </TerminalWindow>
         </BrowserRouter>
       </TerminalProvider>
