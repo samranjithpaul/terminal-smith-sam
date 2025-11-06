@@ -32,16 +32,14 @@ export const TerminalHeader: React.FC = () => {
 
   const themes = [
     { name: 'green', label: 'Matrix' },
-    { name: 'purple', label: 'Cyber' },
     { name: 'white', label: 'Mono' },
-    { name: 'grey', label: 'Smoke' },
   ] as const;
 
   return (
     <div className="flex items-center justify-between mb-4 md:mb-6 pb-3 md:pb-4 border-b border-terminal-border">
       <div className="flex items-center gap-2 md:gap-3">
         <Terminal className="w-4 h-4 md:w-5 md:h-5 text-terminal-accent terminal-glow" />
-        <span className="text-terminal-text-dim text-xs md:text-sm hidden sm:inline">terminal v1.0.0</span>
+        <span className="text-terminal-text-dim text-xs md:text-sm">terminal v1.0.0</span>
       </div>
 
       <div className="flex items-center gap-2 md:gap-4">
