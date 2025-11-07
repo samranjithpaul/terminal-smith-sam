@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { TypeWriter } from '@/components/TypeWriter';
+import { RotatingTypeWriter } from '@/components/RotatingTypeWriter';
 import { Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { terminalSounds } from '@/utils/sounds';
@@ -34,7 +35,16 @@ export default function Home() {
             />
           </div>
           <div className="text-lg sm:text-xl md:text-2xl lg:text-3xl xl:text-4xl text-terminal-text-dim">
-            <TypeWriter text="Full-Stack Developer" delay={60} showCursor={false} />
+            <RotatingTypeWriter
+              texts={[
+                'Full-Stack Developer',
+                'Software Developer',
+                'Web Developer'
+              ]}
+              typingDelay={100}
+              deletingDelay={50}
+              pauseDelay={2000}
+            />
           </div>
         </div>
 
