@@ -24,9 +24,9 @@ export default function Contact() {
   };
 
   return (
-    <div className="space-y-4 md:space-y-6 animate-fade-in">
+    <div className="space-y-4 md:space-y-6 lg:space-y-8 animate-fade-in max-w-4xl mx-auto">
       {/* Command Output Header */}
-      <div className="flex items-center gap-2 text-terminal-text-dim text-xs sm:text-sm mb-4 md:mb-6">
+      <div className="flex items-center gap-2 text-terminal-text-dim text-xs sm:text-sm lg:text-base mb-4 md:mb-6 lg:mb-8">
         <span className="text-terminal-accent">$</span>
         <TypeWriter
           text="contact --info"
@@ -37,14 +37,14 @@ export default function Contact() {
       </div>
 
       {showForm && (
-        <div className="space-y-6 md:space-y-8 pl-2 sm:pl-4">
+        <div className="space-y-6 md:space-y-8 lg:space-y-12 pl-2 sm:pl-4 lg:pl-8">
           {/* Contact Info */}
-          <div className="space-y-3 md:space-y-4">
-            <div className="text-terminal-accent terminal-glow font-semibold mb-3 md:mb-4 text-sm sm:text-base">
+          <div className="space-y-3 md:space-y-4 lg:space-y-6">
+            <div className="text-terminal-accent terminal-glow font-semibold mb-3 md:mb-4 lg:mb-6 text-sm sm:text-base lg:text-xl xl:text-2xl">
               [CONTACT INFORMATION]
             </div>
 
-            <div className="space-y-2 md:space-y-3">
+            <div className="space-y-2 md:space-y-3 lg:space-y-4">
               {[
                 {
                   icon: Mail,
@@ -70,10 +70,10 @@ export default function Contact() {
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex flex-wrap items-center gap-2 sm:gap-3 text-terminal-text-dim hover:text-terminal-accent transition-all group text-xs sm:text-sm"
+                  className="flex flex-wrap items-center gap-2 sm:gap-3 lg:gap-4 text-terminal-text-dim hover:text-terminal-accent transition-all group text-xs sm:text-sm lg:text-lg xl:text-xl"
                 >
-                  <Icon className="w-3 h-3 sm:w-4 sm:h-4 group-hover:terminal-glow flex-shrink-0" />
-                  <span className="text-terminal-accent-dim w-16 sm:w-24">{label}:</span>
+                  <Icon className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5 group-hover:terminal-glow flex-shrink-0" />
+                  <span className="text-terminal-accent-dim w-16 sm:w-24 lg:w-32">{label}:</span>
                   <span className="group-hover:terminal-glow break-all">{value}</span>
                 </a>
               ))}
@@ -81,26 +81,26 @@ export default function Contact() {
           </div>
 
           {/* Resume Download */}
-          <div className="pt-4 md:pt-6 border-t border-terminal-border">
+          <div className="pt-4 md:pt-6 lg:pt-10 border-t border-terminal-border">
             <a
               href="/resume.pdf"
               download
-              className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-2 bg-terminal-surface border border-terminal-accent text-terminal-accent hover:bg-terminal-accent hover:text-terminal-bg transition-all terminal-box-glow text-xs sm:text-sm"
+              className="inline-flex items-center gap-2 sm:gap-3 lg:gap-4 px-3 sm:px-4 lg:px-6 py-2 lg:py-3 bg-terminal-surface border border-terminal-accent text-terminal-accent hover:bg-terminal-accent hover:text-terminal-bg transition-all terminal-box-glow text-xs sm:text-sm lg:text-lg"
             >
-              <Download className="w-3 h-3 sm:w-4 sm:h-4" />
+              <Download className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
               <span>Download Resume</span>
             </a>
           </div>
 
           {/* Contact Form */}
-          <div className="pt-4 md:pt-6 border-t border-terminal-border">
-            <div className="text-terminal-accent terminal-glow font-semibold mb-3 md:mb-4 text-sm sm:text-base">
+          <div className="pt-4 md:pt-6 lg:pt-10 border-t border-terminal-border">
+            <div className="text-terminal-accent terminal-glow font-semibold mb-3 md:mb-4 lg:mb-6 text-sm sm:text-base lg:text-xl xl:text-2xl">
               [SEND MESSAGE]
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4">
-              <div className="space-y-1.5 md:space-y-2">
-                <label className="text-terminal-text-dim text-xs sm:text-sm flex items-center gap-2">
+            <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4 lg:space-y-6">
+              <div className="space-y-1.5 md:space-y-2 lg:space-y-3">
+                <label className="text-terminal-text-dim text-xs sm:text-sm lg:text-lg flex items-center gap-2 lg:gap-3">
                   <span className="text-terminal-accent-dim">$</span>
                   <span>name:</span>
                 </label>
@@ -109,13 +109,13 @@ export default function Contact() {
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  className="w-full bg-terminal-surface border border-terminal-border text-terminal-text px-2 sm:px-3 py-1.5 sm:py-2 focus:border-terminal-accent focus:outline-none transition-all font-mono text-xs sm:text-sm"
+                  className="w-full bg-terminal-surface border border-terminal-border text-terminal-text px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 lg:py-3 focus:border-terminal-accent focus:outline-none transition-all font-mono text-xs sm:text-sm lg:text-base"
                   placeholder="Your name"
                 />
               </div>
 
-              <div className="space-y-1.5 md:space-y-2">
-                <label className="text-terminal-text-dim text-xs sm:text-sm flex items-center gap-2">
+              <div className="space-y-1.5 md:space-y-2 lg:space-y-3">
+                <label className="text-terminal-text-dim text-xs sm:text-sm lg:text-lg flex items-center gap-2 lg:gap-3">
                   <span className="text-terminal-accent-dim">$</span>
                   <span>email:</span>
                 </label>
@@ -124,13 +124,13 @@ export default function Contact() {
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  className="w-full bg-terminal-surface border border-terminal-border text-terminal-text px-2 sm:px-3 py-1.5 sm:py-2 focus:border-terminal-accent focus:outline-none transition-all font-mono text-xs sm:text-sm"
+                  className="w-full bg-terminal-surface border border-terminal-border text-terminal-text px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 lg:py-3 focus:border-terminal-accent focus:outline-none transition-all font-mono text-xs sm:text-sm lg:text-base"
                   placeholder="your@email.com"
                 />
               </div>
 
-              <div className="space-y-1.5 md:space-y-2">
-                <label className="text-terminal-text-dim text-xs sm:text-sm flex items-center gap-2">
+              <div className="space-y-1.5 md:space-y-2 lg:space-y-3">
+                <label className="text-terminal-text-dim text-xs sm:text-sm lg:text-lg flex items-center gap-2 lg:gap-3">
                   <span className="text-terminal-accent-dim">$</span>
                   <span>message:</span>
                 </label>
@@ -139,7 +139,7 @@ export default function Contact() {
                   value={formData.message}
                   onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                   rows={6}
-                  className="w-full bg-terminal-surface border border-terminal-border text-terminal-text px-2 sm:px-3 py-1.5 sm:py-2 focus:border-terminal-accent focus:outline-none transition-all font-mono resize-none text-xs sm:text-sm"
+                  className="w-full bg-terminal-surface border border-terminal-border text-terminal-text px-2 sm:px-3 lg:px-4 py-1.5 sm:py-2 lg:py-3 focus:border-terminal-accent focus:outline-none transition-all font-mono resize-none text-xs sm:text-sm lg:text-base"
                   placeholder="Your message..."
                 />
               </div>
@@ -147,9 +147,9 @@ export default function Contact() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex items-center gap-2 sm:gap-3 px-3 sm:px-4 py-1.5 sm:py-2 bg-terminal-accent text-terminal-bg hover:bg-terminal-accent-bright transition-all disabled:opacity-50 disabled:cursor-not-allowed terminal-box-glow text-xs sm:text-sm"
+                className="inline-flex items-center gap-2 sm:gap-3 lg:gap-4 px-3 sm:px-4 lg:px-6 py-1.5 sm:py-2 lg:py-3 bg-terminal-accent text-terminal-bg hover:bg-terminal-accent-bright transition-all disabled:opacity-50 disabled:cursor-not-allowed terminal-box-glow text-xs sm:text-sm lg:text-lg"
               >
-                <Send className="w-3 h-3 sm:w-4 sm:h-4" />
+                <Send className="w-3 h-3 sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
                 <span>{isSubmitting ? 'Sending...' : 'Send Message'}</span>
               </button>
             </form>
