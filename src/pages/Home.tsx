@@ -21,7 +21,7 @@ export default function Home() {
   };
 
   return (
-    <div className="space-y-4 md:space-y-6 lg:space-y-10 animate-fade-in max-w-6xl mx-auto">
+    <div className="space-y-4 md:space-y-6 lg:space-y-10 animate-fade-in">
       {/* Hero */}
       <div className="space-y-4 md:space-y-6 lg:space-y-8">
         <div className="border-2 border-terminal-accent p-4 md:p-6 lg:p-10 xl:p-12 terminal-box-glow">

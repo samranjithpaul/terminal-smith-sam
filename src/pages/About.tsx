@@ -4,7 +4,7 @@ import { Github, Linkedin, Mail, ExternalLink } from 'lucide-react';
 
 export default function About() {
   return (
-    <div className="space-y-4 md:space-y-6 lg:space-y-8 animate-fade-in max-w-5xl mx-auto">
+    <div className="space-y-4 md:space-y-6 lg:space-y-8 animate-fade-in">
       {/* Command Output Header */}
       <div className="flex items-center gap-2 text-terminal-text-dim text-xs sm:text-sm lg:text-base mb-4 md:mb-6 lg:mb-8">
         <span className="text-terminal-accent">$</span>
