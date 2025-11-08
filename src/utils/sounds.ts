@@ -33,8 +33,10 @@ class TerminalSounds {
   }
 
   playKeypress() {
-    // Short click sound for typing - mechanical keyboard style
-    this.playTone(900, 0.04, 0.03);
+    // Short click sound for typing - mechanical keyboard style with slight randomization
+    const baseFrequency = 900;
+    const pitchVariation = Math.random() * 100 - 50; // ±50Hz variation
+    this.playTone(baseFrequency + pitchVariation, 0.04, 0.03);
   }
 
   playClick() {

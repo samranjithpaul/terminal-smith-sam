@@ -23,11 +23,13 @@ export const TypeWriter: React.FC<TypeWriterProps> = ({
 
   useEffect(() => {
     if (displayedText.length < text.length) {
+      // Add slight random variation to typing speed (±10-20ms)
+      const variation = Math.random() * 20 - 10;
       const timeout = setTimeout(() => {
         setDisplayedText(text.slice(0, displayedText.length + 1));
         // Play typing sound every character
         terminalSounds.playKeypress();
-      }, delay);
+      }, delay + variation);
       return () => clearTimeout(timeout);
     } else if (!isComplete) {
       setIsComplete(true);
