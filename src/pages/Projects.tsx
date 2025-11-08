@@ -67,9 +67,9 @@ export default function Projects() {
   const [showProjects, setShowProjects] = useState(false);
 
   return (
-    <div className="space-y-4 md:space-y-6 lg:space-y-8 animate-fade-in">
+    <div className="space-y-6 sm:space-y-8 md:space-y-6 lg:space-y-8 animate-fade-in">
       {/* Command Output Header */}
-      <div className="flex items-center gap-2 text-terminal-text-dim text-xs sm:text-sm lg:text-base mb-4 md:mb-6 lg:mb-8">
+      <div className="flex items-center gap-2 text-terminal-text-dim text-xs sm:text-sm lg:text-base mb-6 sm:mb-8 md:mb-6 lg:mb-8">
         <span className="text-terminal-accent">$</span>
         <TypeWriter
           text="show projects --detailed"
@@ -81,8 +81,8 @@ export default function Projects() {
 
       {/* Directory Listing */}
       {showProjects && (
-        <div className="space-y-3 md:space-y-4 lg:space-y-6 xl:space-y-8 pl-2 sm:pl-4 lg:pl-8">
-          <div className="text-terminal-text-dim text-xs sm:text-sm lg:text-lg xl:text-xl mb-3 md:mb-4 lg:mb-6">
+        <div className="space-y-5 sm:space-y-6 md:space-y-4 lg:space-y-6 xl:space-y-8 pl-3 sm:pl-4 lg:pl-8">
+          <div className="text-terminal-text-dim text-xs sm:text-sm lg:text-lg xl:text-xl mb-5 sm:mb-6 md:mb-4 lg:mb-6">
             <TypeWriter
               text={`total ${projects.length} projects`}
               delay={30}
@@ -94,7 +94,7 @@ export default function Projects() {
             const isExpanded = expandedProject === project.id;
 
             return (
-              <div key={project.id} className="space-y-3 lg:space-y-4">
+              <div key={project.id} className="space-y-4 sm:space-y-5 md:space-y-3 lg:space-y-4">
                 {/* Project Header */}
                 <button
                   onClick={() => setExpandedProject(isExpanded ? null : project.id)}
@@ -120,7 +120,7 @@ export default function Projects() {
 
                 {/* Expanded Content */}
                 {isExpanded && (
-                  <div className="pl-5 sm:pl-10 lg:pl-16 space-y-3 md:space-y-4 lg:space-y-6 animate-fade-in">
+                  <div className="pl-6 sm:pl-10 lg:pl-16 space-y-5 sm:space-y-6 md:space-y-4 lg:space-y-6 animate-fade-in">
                     {/* Tech Stack */}
                     <div>
                       <div className="text-terminal-accent-dim text-xs sm:text-sm lg:text-lg mb-2 lg:mb-3">Tech Stack:</div>
@@ -179,7 +179,7 @@ export default function Projects() {
           })}
 
           {/* Summary */}
-          <div className="pt-4 md:pt-6 lg:pt-10 border-t border-terminal-border text-terminal-text-dim text-xs sm:text-sm lg:text-lg xl:text-xl leading-relaxed">
+          <div className="pt-6 sm:pt-8 md:pt-6 lg:pt-10 border-t border-terminal-border text-terminal-text-dim text-xs sm:text-sm lg:text-lg xl:text-xl leading-relaxed">
             <TypeWriter
               text="Use arrow keys or click to expand project details. All source code available on GitHub."
               delay={20}

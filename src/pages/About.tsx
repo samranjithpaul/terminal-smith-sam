@@ -4,16 +4,16 @@ import { Github, Linkedin, Mail, ExternalLink } from 'lucide-react';
 
 export default function About() {
   return (
-    <div className="space-y-4 md:space-y-6 lg:space-y-8 animate-fade-in">
+    <div className="space-y-6 sm:space-y-8 md:space-y-6 lg:space-y-8 animate-fade-in">
       {/* Command Output Header */}
-      <div className="flex items-center gap-2 text-terminal-text-dim text-xs sm:text-sm lg:text-base mb-4 md:mb-6 lg:mb-8">
+      <div className="flex items-center gap-2 text-terminal-text-dim text-xs sm:text-sm lg:text-base mb-6 sm:mb-8 md:mb-6 lg:mb-8">
         <span className="text-terminal-accent">$</span>
         <TypeWriter text="cat about.txt" delay={50} showCursor={false} />
       </div>
 
       {/* Content */}
-      <div className="space-y-4 md:space-y-6 lg:space-y-10 pl-2 sm:pl-4 lg:pl-8">
-        <div className="border-l-2 lg:border-l-4 border-terminal-accent pl-3 sm:pl-4 lg:pl-8 space-y-3 md:space-y-4 lg:space-y-6 xl:space-y-8">
+      <div className="space-y-6 sm:space-y-8 md:space-y-6 lg:space-y-10 pl-3 sm:pl-4 lg:pl-8">
+        <div className="border-l-2 lg:border-l-4 border-terminal-accent pl-4 sm:pl-5 lg:pl-8 space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 xl:space-y-8">
           <div className="text-terminal-text text-sm sm:text-base lg:text-2xl xl:text-3xl leading-relaxed">
             <TypeWriter
               text="Full-stack developer. Building fast, scalable web applications."
@@ -22,7 +22,7 @@ export default function About() {
             />
           </div>
 
-          <div className="text-terminal-text-dim text-xs sm:text-sm lg:text-xl xl:text-2xl space-y-2 md:space-y-3 lg:space-y-5 xl:space-y-6 leading-relaxed lg:leading-loose">
+          <div className="text-terminal-text-dim text-xs sm:text-sm lg:text-xl xl:text-2xl space-y-3 sm:space-y-4 md:space-y-3 lg:space-y-5 xl:space-y-6 leading-relaxed lg:leading-loose">
             <p>
               Specialized in modern web technologies. React, TypeScript, Node.js. Backend APIs,
               database design, cloud infrastructure.
@@ -39,12 +39,12 @@ export default function About() {
         </div>
 
         {/* Social Links */}
-        <div className="space-y-3 lg:space-y-5 pt-4 md:pt-6 lg:pt-10 border-t border-terminal-border">
+        <div className="space-y-4 sm:space-y-5 md:space-y-3 lg:space-y-5 pt-6 sm:pt-8 md:pt-6 lg:pt-10 border-t border-terminal-border">
           <div className="text-terminal-text-dim text-xs sm:text-sm lg:text-xl">
             <TypeWriter text="[LINKS]" delay={50} showCursor={false} />
           </div>
           
-          <div className="space-y-2 lg:space-y-4 pl-2 sm:pl-4 lg:pl-8">
+          <div className="space-y-3 sm:space-y-4 md:space-y-2 lg:space-y-4 pl-3 sm:pl-4 lg:pl-8">
             {[
               { icon: Github, label: 'GitHub', url: 'https://github.com/samranjithpaul', handle: '@samranjithpaul' },
               { icon: Linkedin, label: 'LinkedIn', url: 'https://linkedin.com/in/samranjithpaul', handle: '/samranjithpaul' },
@@ -67,7 +67,7 @@ export default function About() {
         </div>
 
         {/* File Stats */}
-        <div className="text-terminal-text-dim text-xs pt-3 md:pt-4 border-t border-terminal-border flex flex-wrap gap-1">
+        <div className="text-terminal-text-dim text-xs pt-4 sm:pt-5 md:pt-4 border-t border-terminal-border flex flex-wrap gap-1">
           <span className="text-terminal-accent-dim">File:</span> <span>about.txt</span>
           <span className="text-terminal-accent-dim ml-2">Size:</span> <span>1.2KB</span>
           <span className="text-terminal-accent-dim ml-2">Modified:</span> <span>2025-01-15</span>

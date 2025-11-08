@@ -24,9 +24,9 @@ export default function Contact() {
   };
 
   return (
-    <div className="space-y-4 md:space-y-6 lg:space-y-8 animate-fade-in max-w-5xl">
+    <div className="space-y-6 sm:space-y-8 md:space-y-6 lg:space-y-8 animate-fade-in max-w-5xl">
       {/* Command Output Header */}
-      <div className="flex items-center gap-2 text-terminal-text-dim text-xs sm:text-sm lg:text-base mb-4 md:mb-6 lg:mb-8">
+      <div className="flex items-center gap-2 text-terminal-text-dim text-xs sm:text-sm lg:text-base mb-6 sm:mb-8 md:mb-6 lg:mb-8">
         <span className="text-terminal-accent">$</span>
         <TypeWriter
           text="contact --info"
@@ -37,14 +37,14 @@ export default function Contact() {
       </div>
 
       {showForm && (
-        <div className="space-y-6 md:space-y-8 lg:space-y-12 pl-2 sm:pl-4 lg:pl-8">
+        <div className="space-y-8 sm:space-y-10 md:space-y-8 lg:space-y-12 pl-3 sm:pl-4 lg:pl-8">
           {/* Contact Info */}
-          <div className="space-y-3 md:space-y-4 lg:space-y-6">
-            <div className="text-terminal-accent terminal-glow font-semibold mb-3 md:mb-4 lg:mb-6 text-sm sm:text-base lg:text-xl xl:text-2xl">
+          <div className="space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6">
+            <div className="text-terminal-accent terminal-glow font-semibold mb-4 sm:mb-5 md:mb-4 lg:mb-6 text-sm sm:text-base lg:text-xl xl:text-2xl">
               [CONTACT INFORMATION]
             </div>
 
-            <div className="space-y-2 md:space-y-3 lg:space-y-4">
+            <div className="space-y-3 sm:space-y-4 md:space-y-3 lg:space-y-4">
               {[
                 {
                   icon: Mail,
@@ -81,7 +81,7 @@ export default function Contact() {
           </div>
 
           {/* Resume Download */}
-          <div className="pt-4 md:pt-6 lg:pt-10 border-t border-terminal-border">
+          <div className="pt-6 sm:pt-8 md:pt-6 lg:pt-10 border-t border-terminal-border">
             <a
               href="/resume.pdf"
               download
@@ -93,13 +93,13 @@ export default function Contact() {
           </div>
 
           {/* Contact Form */}
-          <div className="pt-4 md:pt-6 lg:pt-10 border-t border-terminal-border">
-            <div className="text-terminal-accent terminal-glow font-semibold mb-3 md:mb-4 lg:mb-6 text-sm sm:text-base lg:text-xl xl:text-2xl">
+          <div className="pt-6 sm:pt-8 md:pt-6 lg:pt-10 border-t border-terminal-border">
+            <div className="text-terminal-accent terminal-glow font-semibold mb-4 sm:mb-5 md:mb-4 lg:mb-6 text-sm sm:text-base lg:text-xl xl:text-2xl">
               [SEND MESSAGE]
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-3 md:space-y-4 lg:space-y-6">
-              <div className="space-y-1.5 md:space-y-2 lg:space-y-3">
+            <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6">
+              <div className="space-y-2 sm:space-y-3 md:space-y-2 lg:space-y-3">
                 <label className="text-terminal-text-dim text-xs sm:text-sm lg:text-lg flex items-center gap-2 lg:gap-3">
                   <span className="text-terminal-accent-dim">$</span>
                   <span>name:</span>
@@ -114,7 +114,7 @@ export default function Contact() {
                 />
               </div>
 
-              <div className="space-y-1.5 md:space-y-2 lg:space-y-3">
+              <div className="space-y-2 sm:space-y-3 md:space-y-2 lg:space-y-3">
                 <label className="text-terminal-text-dim text-xs sm:text-sm lg:text-lg flex items-center gap-2 lg:gap-3">
                   <span className="text-terminal-accent-dim">$</span>
                   <span>email:</span>
@@ -129,7 +129,7 @@ export default function Contact() {
                 />
               </div>
 
-              <div className="space-y-1.5 md:space-y-2 lg:space-y-3">
+              <div className="space-y-2 sm:space-y-3 md:space-y-2 lg:space-y-3">
                 <label className="text-terminal-text-dim text-xs sm:text-sm lg:text-lg flex items-center gap-2 lg:gap-3">
                   <span className="text-terminal-accent-dim">$</span>
                   <span>message:</span>

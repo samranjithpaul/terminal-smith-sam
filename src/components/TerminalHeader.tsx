@@ -32,7 +32,6 @@ export const TerminalHeader: React.FC = () => {
 
   const themes = [
     { name: 'green', label: 'Matrix' },
-    { name: 'white', label: 'Mono' },
   ] as const;
 
   return (

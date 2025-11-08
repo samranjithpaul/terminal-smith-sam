@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTerminal } from '@/contexts/TerminalContext';
+import { terminalSounds } from '@/utils/sounds';
 
 interface TypeWriterProps {
   text: string;
@@ -24,6 +25,8 @@ export const TypeWriter: React.FC<TypeWriterProps> = ({
     if (displayedText.length < text.length) {
       const timeout = setTimeout(() => {
         setDisplayedText(text.slice(0, displayedText.length + 1));
+        // Play typing sound every character
+        terminalSounds.playKeypress();
       }, delay);
       return () => clearTimeout(timeout);
     } else if (!isComplete) {

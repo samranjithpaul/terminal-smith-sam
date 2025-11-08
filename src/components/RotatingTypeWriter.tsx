@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTerminal } from '@/contexts/TerminalContext';
+import { terminalSounds } from '@/utils/sounds';
 
 interface RotatingTypeWriterProps {
   texts: string[];
@@ -40,6 +41,10 @@ export const RotatingTypeWriter: React.FC<RotatingTypeWriterProps> = ({
       } else {
         const timeout = setTimeout(() => {
           setDisplayedText(currentFullText.slice(0, displayedText.length - 1));
+          // Softer sound when deleting
+          if (displayedText.length % 2 === 0) {
+            terminalSounds.playKeypress();
+          }
         }, deletingDelay);
         return () => clearTimeout(timeout);
       }
@@ -49,6 +54,8 @@ export const RotatingTypeWriter: React.FC<RotatingTypeWriterProps> = ({
       } else {
         const timeout = setTimeout(() => {
           setDisplayedText(currentFullText.slice(0, displayedText.length + 1));
+          // Play typing sound
+          terminalSounds.playKeypress();
         }, typingDelay);
         return () => clearTimeout(timeout);
       }

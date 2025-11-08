@@ -8,6 +8,8 @@ import { TerminalWindow } from "@/components/TerminalWindow";
 import { TerminalHeader } from "@/components/TerminalHeader";
 import { Navigation } from "@/components/Navigation";
 import { CommandInput } from "@/components/CommandInput";
+import { terminalSounds } from "@/utils/sounds";
+import { useEffect, useState } from "react";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Skills from "./pages/Skills";
@@ -17,13 +19,30 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <TerminalProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+const AppContent = () => {
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  useEffect(() => {
+    const handleFirstInteraction = () => {
+      if (!hasInteracted) {
+        setHasInteracted(true);
+        // Play boot sound on first user interaction
+        setTimeout(() => terminalSounds.playBootSound(), 100);
+      }
+    };
+
+    // Listen for any user interaction
+    document.addEventListener('click', handleFirstInteraction, { once: true });
+    document.addEventListener('keydown', handleFirstInteraction, { once: true });
+
+    return () => {
+      document.removeEventListener('click', handleFirstInteraction);
+      document.removeEventListener('keydown', handleFirstInteraction);
+    };
+  }, [hasInteracted]);
+
+  return (
+    <BrowserRouter>
           <TerminalWindow>
             <TerminalHeader />
             <Navigation />
@@ -37,7 +56,17 @@ const App = () => (
             </Routes>
             <CommandInput />
           </TerminalWindow>
-        </BrowserRouter>
+    </BrowserRouter>
+  );
+};
+
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <TerminalProvider>
+        <Toaster />
+        <Sonner />
+        <AppContent />
       </TerminalProvider>
     </TooltipProvider>
   </QueryClientProvider>
