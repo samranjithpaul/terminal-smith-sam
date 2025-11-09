@@ -55,7 +55,7 @@ export default function Skills() {
           text="list --skills --verbose"
           delay={50}
           showCursor={false}
-          enableSound={true}
+          enableSound={false}
           onComplete={() => setTimeout(() => setLoadingComplete(true), 300)}
         />
       </div>

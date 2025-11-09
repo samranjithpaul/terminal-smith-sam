@@ -33,7 +33,7 @@ export default function Contact() {
           text="contact --info"
           delay={50}
           showCursor={false}
-          enableSound={true}
+          enableSound={false}
           onComplete={() => setTimeout(() => setShowForm(true), 300)}
         />
       </div>

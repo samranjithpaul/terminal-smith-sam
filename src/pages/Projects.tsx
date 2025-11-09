@@ -76,7 +76,7 @@ export default function Projects() {
           text="show projects --detailed"
           delay={50}
           showCursor={false}
-          enableSound={true}
+          enableSound={false}
           onComplete={() => setTimeout(() => setShowProjects(true), 300)}
         />
       </div>
