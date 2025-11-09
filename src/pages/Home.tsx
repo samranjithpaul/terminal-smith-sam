@@ -1,5 +1,6 @@
 import React from 'react';
 import { RotatingTypeWriter } from '@/components/RotatingTypeWriter';
+import { TypeWriter } from '@/components/TypeWriter';
 import { Download } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { terminalSounds } from '@/utils/sounds';
@@ -25,7 +26,12 @@ export default function Home() {
         <div className="border-2 border-terminal-accent p-6 sm:p-8 md:p-6 lg:p-10 xl:p-12 terminal-box-glow">
           {/* Name */}
           <div className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl font-bold text-terminal-accent terminal-glow mb-3 md:mb-4 lg:mb-6 xl:mb-8 break-words leading-tight">
-            SAM RANJITH PAUL
+            <TypeWriter 
+              text="SAM RANJITH PAUL" 
+              delay={80} 
+              showCursor={false} 
+              enableSound={true}
+            />
           </div>
           
           {/* Rotating subtitle */}

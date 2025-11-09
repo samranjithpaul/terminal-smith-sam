@@ -7,8 +7,9 @@ export default function About() {
     <div className="space-y-6 sm:space-y-8 md:space-y-6 lg:space-y-8 animate-fade-in">
       {/* Command Output Header */}
       <div className="flex items-center gap-2 text-terminal-text-dim text-xs sm:text-sm lg:text-base mb-6 sm:mb-8 md:mb-6 lg:mb-8">
+        <span className="text-terminal-accent">sam@terminal</span>
         <span className="text-terminal-accent">$</span>
-        <TypeWriter text="cat about.txt" delay={50} showCursor={false} />
+        <TypeWriter text="cat about.txt" delay={50} showCursor={false} enableSound={true} />
       </div>
 
       {/* Content */}

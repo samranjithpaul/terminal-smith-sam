@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTerminal } from '@/contexts/TerminalContext';
-import { Terminal, Volume2, VolumeX, X } from 'lucide-react';
+import { Terminal, Volume2, VolumeX } from 'lucide-react';
 import { terminalSounds } from '@/utils/sounds';
 
 export const TerminalHeader: React.FC = () => {
@@ -10,15 +10,6 @@ export const TerminalHeader: React.FC = () => {
     soundEnabled,
     toggleSound
   } = useTerminal();
-
-  const handleClose = () => {
-    terminalSounds.playClick();
-    window.close();
-    // Fallback: navigate to a blank page if window.close() doesn't work
-    setTimeout(() => {
-      window.location.href = 'about:blank';
-    }, 100);
-  };
 
   const handleThemeClick = (themeName: any) => {
     terminalSounds.playClick();
@@ -67,15 +58,6 @@ export const TerminalHeader: React.FC = () => {
           title="Toggle sound effects"
         >
           {soundEnabled ? <Volume2 className="w-4 h-4" /> : <VolumeX className="w-4 h-4" />}
-        </button>
-
-        {/* Close Button */}
-        <button
-          onClick={handleClose}
-          className="p-1.5 md:p-2 bg-red-900/30 hover:bg-red-900/50 text-red-400 hover:text-red-300 rounded transition-all border border-red-900/50"
-          title="Close terminal"
-        >
-          <X className="w-4 h-4" />
         </button>
       </div>
     </div>
