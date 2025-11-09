@@ -8,6 +8,7 @@ interface RotatingTypeWriterProps {
   deletingDelay?: number;
   pauseDelay?: number;
   className?: string;
+  enableSound?: boolean;
 }
 
 export const RotatingTypeWriter: React.FC<RotatingTypeWriterProps> = ({
@@ -16,6 +17,7 @@ export const RotatingTypeWriter: React.FC<RotatingTypeWriterProps> = ({
   deletingDelay = 50,
   pauseDelay = 2000,
   className = '',
+  enableSound = false,
 }) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
   const [displayedText, setDisplayedText] = useState('');
@@ -41,8 +43,8 @@ export const RotatingTypeWriter: React.FC<RotatingTypeWriterProps> = ({
       } else {
         const timeout = setTimeout(() => {
           setDisplayedText(currentFullText.slice(0, displayedText.length - 1));
-          // Softer sound when deleting
-          if (displayedText.length % 2 === 0) {
+          // Softer sound when deleting (if enabled)
+          if (enableSound && displayedText.length % 2 === 0) {
             terminalSounds.playKeypress();
           }
         }, deletingDelay);
@@ -54,8 +56,10 @@ export const RotatingTypeWriter: React.FC<RotatingTypeWriterProps> = ({
       } else {
         const timeout = setTimeout(() => {
           setDisplayedText(currentFullText.slice(0, displayedText.length + 1));
-          // Play typing sound
-          terminalSounds.playKeypress();
+          // Play typing sound (if enabled)
+          if (enableSound) {
+            terminalSounds.playKeypress();
+          }
         }, typingDelay);
         return () => clearTimeout(timeout);
       }

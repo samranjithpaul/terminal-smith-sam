@@ -19,6 +19,7 @@ export default function About() {
               text="Full-stack developer. Building fast, scalable web applications."
               delay={30}
               showCursor={false}
+              enableSound={false}
             />
           </div>
 
@@ -41,7 +42,7 @@ export default function About() {
         {/* Social Links */}
         <div className="space-y-4 sm:space-y-5 md:space-y-3 lg:space-y-5 pt-6 sm:pt-8 md:pt-6 lg:pt-10 border-t border-terminal-border">
           <div className="text-terminal-text-dim text-xs sm:text-sm lg:text-xl">
-            <TypeWriter text="[LINKS]" delay={50} showCursor={false} />
+            <TypeWriter text="[LINKS]" delay={50} showCursor={false} enableSound={false} />
           </div>
           
           <div className="space-y-3 sm:space-y-4 md:space-y-2 lg:space-y-4 pl-3 sm:pl-4 lg:pl-8">

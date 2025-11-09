@@ -8,6 +8,7 @@ interface TypeWriterProps {
   onComplete?: () => void;
   className?: string;
   showCursor?: boolean;
+  enableSound?: boolean;
 }
 
 export const TypeWriter: React.FC<TypeWriterProps> = ({
@@ -16,6 +17,7 @@ export const TypeWriter: React.FC<TypeWriterProps> = ({
   onComplete,
   className = '',
   showCursor = true,
+  enableSound = true,
 }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [isComplete, setIsComplete] = useState(false);
@@ -27,8 +29,10 @@ export const TypeWriter: React.FC<TypeWriterProps> = ({
       const variation = Math.random() * 20 - 10;
       const timeout = setTimeout(() => {
         setDisplayedText(text.slice(0, displayedText.length + 1));
-        // Play typing sound every character
-        terminalSounds.playKeypress();
+        // Play typing sound every character (if enabled)
+        if (enableSound) {
+          terminalSounds.playKeypress();
+        }
       }, delay + variation);
       return () => clearTimeout(timeout);
     } else if (!isComplete) {

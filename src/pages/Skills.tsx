@@ -62,13 +62,14 @@ export default function Skills() {
       {loadingComplete && (
         <div className="space-y-2 sm:space-y-3 md:space-y-2 lg:space-y-3 pl-3 sm:pl-4 lg:pl-8 mb-6 sm:mb-8 md:mb-6 lg:mb-8">
           <div className="text-terminal-text-dim text-xs sm:text-sm lg:text-lg">
-            <TypeWriter text="[INFO] Loading skill database..." delay={30} showCursor={false} />
+            <TypeWriter text="[INFO] Loading skill database..." delay={30} showCursor={false} enableSound={false} />
           </div>
           <div className="text-terminal-accent-dim text-xs sm:text-sm lg:text-lg">
             <TypeWriter
               text="[OK] Skills loaded successfully."
               delay={30}
               showCursor={false}
+              enableSound={false}
               onComplete={() => setCurrentCategory(skillCategories.length)}
             />
           </div>
@@ -114,6 +115,7 @@ export default function Skills() {
                   text="[SUMMARY] Proficient across full-stack development. Focus on scalable architecture and clean implementation."
                   delay={20}
                   showCursor={false}
+                  enableSound={false}
                 />
               </div>
               <div className="text-terminal-accent-dim text-xs lg:text-base">

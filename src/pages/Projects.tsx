@@ -87,6 +87,7 @@ export default function Projects() {
               text={`total ${projects.length} projects`}
               delay={30}
               showCursor={false}
+              enableSound={false}
             />
           </div>
 
@@ -142,7 +143,7 @@ export default function Projects() {
                       <div className="bg-terminal-surface p-2 sm:p-3 lg:p-5 rounded border border-terminal-border space-y-1 lg:space-y-2">
                         {project.buildLog.map((log, i) => (
                           <div key={i} className="text-terminal-text-dim text-xs lg:text-base font-mono break-all">
-                            <TypeWriter text={log} delay={20} showCursor={false} />
+                            <TypeWriter text={log} delay={20} showCursor={false} enableSound={false} />
                           </div>
                         ))}
                       </div>
@@ -184,6 +185,7 @@ export default function Projects() {
               text="Use arrow keys or click to expand project details. All source code available on GitHub."
               delay={20}
               showCursor={false}
+              enableSound={false}
             />
           </div>
         </div>
