@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TypeWriter } from '@/components/TypeWriter';
 import { ExternalLink, Github, ChevronRight } from 'lucide-react';
+import { terminalSounds } from '@/utils/sounds';
 
 const projects = [
   {
@@ -100,7 +101,10 @@ export default function Projects() {
               <div key={project.id} className="space-y-4 sm:space-y-5 md:space-y-3 lg:space-y-4">
                 {/* Project Header */}
                 <button
-                  onClick={() => setExpandedProject(isExpanded ? null : project.id)}
+                  onClick={() => {
+                    terminalSounds.playClick();
+                    setExpandedProject(isExpanded ? null : project.id);
+                  }}
                   className="w-full flex items-start gap-2 sm:gap-3 lg:gap-5 text-left group hover:bg-terminal-surface p-2 sm:p-3 lg:p-5 xl:p-6 rounded transition-all"
                 >
                   <ChevronRight
