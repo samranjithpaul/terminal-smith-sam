@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import emailjs from '@emailjs/browser';
 import { TypeWriter } from '@/components/TypeWriter';
 import { Github, Linkedin, Mail, Download, Send } from 'lucide-react';
 import { toast } from 'sonner';
@@ -12,15 +13,30 @@ export default function Contact() {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate submission
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          from_name: formData.name,
+          reply_to: formData.email,
+          message: formData.message,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      );
 
-    toast.success('Message sent successfully!', {
-      description: 'I\'ll get back to you soon.',
-    });
-
-    setFormData({ name: '', email: '', message: '' });
-    setIsSubmitting(false);
+      toast.success('Message sent successfully!', {
+        description: "I'll get back to you soon.",
+      });
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      console.error('EmailJS error:', error);
+      toast.error('Failed to send message', {
+        description: 'Please try again or reach out via email.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
