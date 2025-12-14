@@ -11,7 +11,6 @@ let cacheTimestamp: number = 0;
 const CACHE_DURATION = 60 * 60 * 1000; // 1 hour
 
 const GITHUB_USERNAME = 'samranjithpaul';
-const MIN_PERCENTAGE_THRESHOLD = 2; // Ignore languages below 2%
 
 serve(async (req) => {
   // Handle CORS preflight
@@ -94,13 +93,12 @@ serve(async (req) => {
       });
     }
 
-    // Calculate percentages and filter by threshold
+    // Calculate percentages for all languages (no filtering)
     const percentages: Record<string, number> = {};
     for (const [lang, bytes] of Object.entries(languageTotals)) {
-      const percentage = Math.round((bytes / totalBytes) * 100);
-      if (percentage >= MIN_PERCENTAGE_THRESHOLD) {
-        percentages[lang] = percentage;
-      }
+      // Use decimal precision for small percentages
+      const percentage = (bytes / totalBytes) * 100;
+      percentages[lang] = percentage < 1 ? Math.round(percentage * 100) / 100 : Math.round(percentage);
     }
 
     // Sort by percentage descending
