@@ -39,6 +39,17 @@ export default function Skills() {
   const [currentCategory, setCurrentCategory] = useState(0);
   const { languages, loading: languagesLoading, error: languagesError } = useGitHubLanguages();
 
+  // Normalize languages for display: scale so largest = 100%
+  const normalizedLanguages = React.useMemo(() => {
+    if (languages.length === 0) return [];
+    const maxLevel = Math.max(...languages.map(l => l.level));
+    return languages.map(lang => ({
+      name: lang.name,
+      rawPercentage: lang.level,
+      normalizedLevel: Math.round((lang.level / maxLevel) * 100),
+    }));
+  }, [languages]);
+
   const totalCategories = staticSkillCategories.length + 1; // +1 for Programming Languages
 
   return (
@@ -94,10 +105,10 @@ export default function Skills() {
           >
             <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-5 md:mb-4 lg:mb-6">
               <span className="text-terminal-accent terminal-glow font-semibold text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl">
-                [PROGRAMMING LANGUAGES]
+                [RELATIVE LANGUAGE USAGE]
               </span>
               <span className="text-terminal-text-dim text-xs">
-                (via GitHub)
+                (normalized)
               </span>
               <div className="flex-1 h-px bg-terminal-border" />
             </div>
@@ -111,16 +122,16 @@ export default function Skills() {
                 <div className="text-red-400 text-xs sm:text-sm">
                   Error: {languagesError}
                 </div>
-              ) : languages.length === 0 ? (
+              ) : normalizedLanguages.length === 0 ? (
                 <div className="text-terminal-text-dim text-xs sm:text-sm">
                   No language data available.
                 </div>
               ) : (
-                languages.map((lang) => (
+                normalizedLanguages.map((lang) => (
                   <ProgressBar
                     key={lang.name}
-                    label={lang.name}
-                    percentage={lang.level}
+                    label={`${lang.name} (${lang.rawPercentage < 1 ? lang.rawPercentage.toFixed(2) : lang.rawPercentage}%)`}
+                    percentage={lang.normalizedLevel}
                     maxWidth={30}
                     animated={currentCategory > 0}
                   />
@@ -170,7 +181,7 @@ export default function Skills() {
                 />
               </div>
               <div className="text-terminal-accent-dim text-xs lg:text-base">
-                Languages from GitHub: {languages.length} | Manual skills: {staticSkillCategories.reduce((acc, cat) => acc + cat.skills.length, 0)}
+                Languages from GitHub: {normalizedLanguages.length} | Manual skills: {staticSkillCategories.reduce((acc, cat) => acc + cat.skills.length, 0)}
               </div>
             </div>
           )}
