@@ -1,1 +1,7 @@
 project_id = "xchcoyrlytlitunfrcct"
+
+[functions.github-starred]
+verify_jwt = false
+
+[functions.github-languages]
+verify_jwt = false
