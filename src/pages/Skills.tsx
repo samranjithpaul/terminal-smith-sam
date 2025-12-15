@@ -49,7 +49,7 @@ export default function Skills() {
       const relativeUsage = lang.level / maxLevel;
       let familiarity: number;
       
-      // Tier mapping based on relative usage
+      // Tier mapping based on relative usage (scale: 70-100)
       if (relativeUsage >= 0.9) {
         // Dominant: 95-100
         familiarity = Math.round(95 + (relativeUsage - 0.9) * 50);
@@ -57,16 +57,16 @@ export default function Skills() {
         // Primary: 85-94
         familiarity = Math.round(85 + ((relativeUsage - 0.5) / 0.4) * 9);
       } else if (relativeUsage >= 0.1) {
-        // Regular: 72-84
-        familiarity = Math.round(72 + ((relativeUsage - 0.1) / 0.4) * 12);
+        // Regular: 77-84
+        familiarity = Math.round(77 + ((relativeUsage - 0.1) / 0.4) * 7);
       } else {
-        // Familiar: 60-71
-        familiarity = Math.round(60 + (relativeUsage / 0.1) * 11);
+        // Familiar: 70-76
+        familiarity = Math.round(70 + (relativeUsage / 0.1) * 6);
       }
       
       return {
         name: lang.name,
-        familiarity: Math.min(100, Math.max(60, familiarity)),
+        familiarity: Math.min(100, Math.max(70, familiarity)),
       };
     });
   }, [languages]);
