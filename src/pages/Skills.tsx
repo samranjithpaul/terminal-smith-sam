@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { TypeWriter } from '@/components/TypeWriter';
 import { ProgressBar } from '@/components/ProgressBar';
+import { SkillBar } from '@/components/SkillBar';
 import { useGitHubLanguages } from '@/hooks/useGitHubLanguages';
 
 // Static skill categories (manually configured)
@@ -34,39 +35,38 @@ const staticSkillCategories = [
   },
 ];
 
+// Map relative usage to recruiter-friendly tier labels
+const getTierFromUsage = (relativeUsage: number): { tier: string; level: number } => {
+  if (relativeUsage >= 0.7) {
+    return { tier: 'Expert', level: Math.round(90 + relativeUsage * 10) };
+  } else if (relativeUsage >= 0.3) {
+    return { tier: 'Proficient', level: Math.round(75 + relativeUsage * 20) };
+  } else if (relativeUsage >= 0.1) {
+    return { tier: 'Familiar', level: Math.round(60 + relativeUsage * 30) };
+  } else {
+    return { tier: 'Learning', level: Math.round(45 + relativeUsage * 50) };
+  }
+};
+
 export default function Skills() {
   const [loadingComplete, setLoadingComplete] = useState(false);
   const [currentCategory, setCurrentCategory] = useState(0);
   const { languages, loading: languagesLoading, error: languagesError } = useGitHubLanguages();
 
-  // Map languages to familiarity scale (60-100) based on usage tiers
-  const familiarityLanguages = React.useMemo(() => {
+  // Map languages to recruiter-friendly tiers based on usage
+  const languageSkills = React.useMemo(() => {
     if (languages.length === 0) return [];
     
     const maxLevel = Math.max(...languages.map(l => l.level));
     
-    return languages.map((lang, index) => {
+    return languages.map((lang) => {
       const relativeUsage = lang.level / maxLevel;
-      let familiarity: number;
-      
-      // Tier mapping based on relative usage (scale: 70-100)
-      if (relativeUsage >= 0.9) {
-        // Dominant: 95-100
-        familiarity = Math.round(95 + (relativeUsage - 0.9) * 50);
-      } else if (relativeUsage >= 0.5) {
-        // Primary: 85-94
-        familiarity = Math.round(85 + ((relativeUsage - 0.5) / 0.4) * 9);
-      } else if (relativeUsage >= 0.1) {
-        // Regular: 77-84
-        familiarity = Math.round(77 + ((relativeUsage - 0.1) / 0.4) * 7);
-      } else {
-        // Familiar: 70-76
-        familiarity = Math.round(70 + (relativeUsage / 0.1) * 6);
-      }
+      const { tier, level } = getTierFromUsage(relativeUsage);
       
       return {
         name: lang.name,
-        familiarity: Math.min(100, Math.max(70, familiarity)),
+        tier,
+        level: Math.min(100, level),
       };
     });
   }, [languages]);
@@ -118,7 +118,7 @@ export default function Skills() {
       {loadingComplete && (
         <div className="space-y-8 sm:space-y-10 md:space-y-8 lg:space-y-12 pl-3 sm:pl-4 lg:pl-8">
           
-          {/* Language Familiarity - Dynamic from GitHub */}
+          {/* Programming Languages - Dynamic from GitHub */}
           <div
             className={`space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 transition-all duration-500 ${
               currentCategory > 0 ? 'opacity-100' : 'opacity-0'
@@ -126,10 +126,10 @@ export default function Skills() {
           >
             <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-5 md:mb-4 lg:mb-6">
               <span className="text-terminal-accent terminal-glow font-semibold text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl">
-                [LANGUAGE FAMILIARITY]
+                [PROGRAMMING LANGUAGES]
               </span>
               <span className="text-terminal-text-dim text-xs">
-                (derived from GitHub activity)
+                (from GitHub repositories)
               </span>
               <div className="flex-1 h-px bg-terminal-border" />
             </div>
@@ -143,18 +143,20 @@ export default function Skills() {
                 <div className="text-red-400 text-xs sm:text-sm">
                   Error: {languagesError}
                 </div>
-              ) : familiarityLanguages.length === 0 ? (
+              ) : languageSkills.length === 0 ? (
                 <div className="text-terminal-text-dim text-xs sm:text-sm">
                   No language data available.
                 </div>
               ) : (
-                familiarityLanguages.map((lang) => (
-                  <ProgressBar
+                languageSkills.map((lang) => (
+                  <SkillBar
                     key={lang.name}
                     label={lang.name}
-                    percentage={lang.familiarity}
+                    level={lang.level}
+                    tier={lang.tier}
                     maxWidth={30}
                     animated={currentCategory > 0}
+                    showPercentage={false}
                   />
                 ))
               )}
@@ -202,7 +204,7 @@ export default function Skills() {
                 />
               </div>
               <div className="text-terminal-accent-dim text-xs lg:text-base">
-                Languages from GitHub: {familiarityLanguages.length} | Manual skills: {staticSkillCategories.reduce((acc, cat) => acc + cat.skills.length, 0)}
+                Languages from GitHub: {languageSkills.length} | Manual skills: {staticSkillCategories.reduce((acc, cat) => acc + cat.skills.length, 0)}
               </div>
             </div>
           )}
