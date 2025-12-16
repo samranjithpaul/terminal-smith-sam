@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { TypeWriter } from '@/components/TypeWriter';
 import { ProgressBar } from '@/components/ProgressBar';
 import { useGitHubLanguages } from '@/hooks/useGitHubLanguages';
@@ -7,11 +7,11 @@ import { useGitHubLanguages } from '@/hooks/useGitHubLanguages';
 const coreSkills = [
   { name: 'TypeScript / JavaScript', level: 92 },
   { name: 'Python', level: 88 },
-  { name: 'C++ / C', level: 82 },
-  { name: 'Java', level: 78 },
   { name: 'React / Next.js', level: 90 },
-  { name: 'Node.js / Express', level: 87 },
-  { name: 'Databases / APIs', level: 85 },
+  { name: 'Node.js / Express', level: 85 },
+  { name: 'Databases / APIs', level: 83 },
+  { name: 'C++ / C', level: 79 },
+  { name: 'Java', level: 76 },
 ];
 
 // Other skill categories (manually configured)
@@ -42,12 +42,48 @@ const otherSkillCategories = [
   },
 ];
 
+// Map relative usage to confidence values (70-100) with natural variation
+function mapToConfidence(languages: { name: string; level: number }[]): { name: string; level: number }[] {
+  if (languages.length === 0) return [];
+  
+  const maxLevel = Math.max(...languages.map(l => l.level));
+  
+  return languages.map((lang, index) => {
+    const ratio = lang.level / maxLevel;
+    let confidence: number;
+    
+    // Create natural tiers with variation
+    if (ratio >= 0.8) {
+      // Dominant: 94-98
+      confidence = 94 + Math.round((ratio - 0.8) * 20);
+    } else if (ratio >= 0.4) {
+      // Primary: 85-93
+      confidence = 85 + Math.round((ratio - 0.4) * 20);
+    } else if (ratio >= 0.15) {
+      // Regular: 78-84
+      confidence = 78 + Math.round((ratio - 0.15) * 24);
+    } else {
+      // Familiar: 70-77
+      confidence = 70 + Math.round(ratio * 47);
+    }
+    
+    // Add slight natural variation (-1 to +1) based on position
+    const variation = (index % 3) - 1;
+    confidence = Math.max(70, Math.min(98, confidence + variation));
+    
+    return { name: lang.name, level: confidence };
+  });
+}
+
 export default function Skills() {
   const [loadingComplete, setLoadingComplete] = useState(false);
   const [currentSection, setCurrentSection] = useState(0);
   const { languages, loading: languagesLoading, error: languagesError } = useGitHubLanguages();
 
-  // Total sections: Core Skills + Other Categories + GitHub Footprint
+  // Map GitHub languages to confidence values
+  const githubLanguages = useMemo(() => mapToConfidence(languages), [languages]);
+
+  // Total sections: Core Skills + Other Categories + GitHub Languages
   const totalSections = 1 + otherSkillCategories.length + 1;
 
   return (
@@ -150,22 +186,17 @@ export default function Skills() {
             </div>
           ))}
 
-          {/* ========== SECTION 2: GITHUB LANGUAGE FOOTPRINT (Data-driven) ========== */}
+          {/* ========== SECTION 2: OTHER LANGUAGES (from GitHub) ========== */}
           <div
-            className={`space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 transition-all duration-500 pt-6 sm:pt-8 border-t border-terminal-border ${
+            className={`space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 transition-all duration-500 ${
               currentSection >= totalSections ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <div className="flex flex-col gap-1 mb-4 sm:mb-5 md:mb-4 lg:mb-6">
-              <div className="flex items-center gap-2 sm:gap-3 lg:gap-4">
-                <span className="text-terminal-text terminal-glow font-semibold text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl">
-                  [GITHUB LANGUAGE FOOTPRINT]
-                </span>
-                <div className="flex-1 h-px bg-terminal-border" />
-              </div>
-              <span className="text-terminal-text-dim text-xs italic">
-                Derived from public GitHub repositories. Reflects code presence, not proficiency.
+            <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-5 md:mb-4 lg:mb-6">
+              <span className="text-terminal-accent terminal-glow font-semibold text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl">
+                [OTHER LANGUAGES]
               </span>
+              <div className="flex-1 h-px bg-terminal-border" />
             </div>
 
             <div className="space-y-3 sm:space-y-4 md:space-y-3 lg:space-y-4">
@@ -177,24 +208,29 @@ export default function Skills() {
                 <div className="text-red-400 text-xs sm:text-sm">
                   Error: {languagesError}
                 </div>
-              ) : languages.length === 0 ? (
+              ) : githubLanguages.length === 0 ? (
                 <div className="text-terminal-text-dim text-xs sm:text-sm">
                   No language data available.
                 </div>
               ) : (
-                languages.map((lang) => (
-                  <div key={lang.name} className="flex items-center gap-3 sm:gap-4 font-mono text-xs sm:text-sm lg:text-base">
-                    <span className="text-terminal-text w-24 sm:w-32 lg:w-40 truncate">{lang.name}</span>
-                    <div className="flex-1 max-w-xs bg-terminal-bg-light/30 h-2 sm:h-3 rounded-sm overflow-hidden">
-                      <div 
-                        className="h-full bg-terminal-text-dim/50 transition-all duration-700"
-                        style={{ width: `${lang.level}%` }}
-                      />
-                    </div>
-                  </div>
+                githubLanguages.map((lang) => (
+                  <ProgressBar
+                    key={lang.name}
+                    label={lang.name}
+                    percentage={lang.level}
+                    maxWidth={30}
+                    animated={currentSection >= totalSections}
+                  />
                 ))
               )}
             </div>
+
+            {/* Disclaimer */}
+            {!languagesLoading && !languagesError && githubLanguages.length > 0 && (
+              <div className="text-terminal-text-dim text-xs italic pt-2">
+                Languages inferred from GitHub projects. Levels reflect practical exposure.
+              </div>
+            )}
           </div>
 
           {/* Summary */}
@@ -202,14 +238,14 @@ export default function Skills() {
             <div className="pt-6 sm:pt-8 md:pt-6 lg:pt-10 border-t border-terminal-border space-y-2 sm:space-y-3 md:space-y-2 lg:space-y-4">
               <div className="text-terminal-text-dim text-xs sm:text-sm lg:text-lg xl:text-xl leading-relaxed">
                 <TypeWriter
-                  text="[SUMMARY] Core skills manually curated. GitHub data provided for transparency."
+                  text="[SUMMARY] Skills loaded. Ready for review."
                   delay={20}
                   showCursor={false}
                   enableSound={false}
                 />
               </div>
               <div className="text-terminal-accent-dim text-xs lg:text-base">
-                Core skills: {coreSkills.length} | Other skills: {otherSkillCategories.reduce((acc, cat) => acc + cat.skills.length, 0)} | Languages on GitHub: {languages.length}
+                Core: {coreSkills.length} | Other: {otherSkillCategories.reduce((acc, cat) => acc + cat.skills.length, 0)} | Languages: {githubLanguages.length}
               </div>
             </div>
           )}
