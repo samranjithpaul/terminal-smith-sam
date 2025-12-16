@@ -83,8 +83,8 @@ export default function Skills() {
   // Map GitHub languages to confidence values
   const githubLanguages = useMemo(() => mapToConfidence(languages), [languages]);
 
-  // Total sections: Core Skills + Other Categories + GitHub Languages
-  const totalSections = 1 + otherSkillCategories.length + 1;
+  // Total sections: Core Skills + GitHub Languages + Other Categories
+  const totalSections = 2 + otherSkillCategories.length;
 
   return (
     <div className="space-y-6 sm:space-y-8 md:space-y-6 lg:space-y-8 animate-fade-in">
@@ -157,39 +157,10 @@ export default function Skills() {
             </div>
           </div>
 
-          {/* Other Skill Categories */}
-          {otherSkillCategories.map((category, catIndex) => (
-            <div
-              key={category.category}
-              className={`space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 transition-all duration-500 ${
-                currentSection > catIndex + 1 ? 'opacity-100' : 'opacity-0'
-              }`}
-            >
-              <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-5 md:mb-4 lg:mb-6">
-                <span className="text-terminal-accent terminal-glow font-semibold text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl">
-                  [{category.category.toUpperCase()}]
-                </span>
-                <div className="flex-1 h-px bg-terminal-border" />
-              </div>
-
-              <div className="space-y-3 sm:space-y-4 md:space-y-3 lg:space-y-4">
-                {category.skills.map((skill) => (
-                  <ProgressBar
-                    key={skill.name}
-                    label={skill.name}
-                    percentage={skill.level}
-                    maxWidth={30}
-                    animated={currentSection > catIndex + 1}
-                  />
-                ))}
-              </div>
-            </div>
-          ))}
-
           {/* ========== SECTION 2: OTHER LANGUAGES (from GitHub Projects) ========== */}
           <div
             className={`space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 transition-all duration-500 ${
-              currentSection >= totalSections ? 'opacity-100' : 'opacity-0'
+              currentSection > 0 ? 'opacity-100' : 'opacity-0'
             }`}
           >
             <div className="flex flex-col gap-1 mb-4 sm:mb-5 md:mb-4 lg:mb-6">
@@ -227,12 +198,41 @@ export default function Skills() {
                     label={lang.name}
                     percentage={lang.level}
                     maxWidth={30}
-                    animated={currentSection >= totalSections}
+                    animated={currentSection > 0}
                   />
                 ))
               )}
             </div>
           </div>
+
+          {/* Other Skill Categories */}
+          {otherSkillCategories.map((category, catIndex) => (
+            <div
+              key={category.category}
+              className={`space-y-4 sm:space-y-5 md:space-y-4 lg:space-y-6 transition-all duration-500 ${
+                currentSection > catIndex + 2 ? 'opacity-100' : 'opacity-0'
+              }`}
+            >
+              <div className="flex items-center gap-2 sm:gap-3 lg:gap-4 mb-4 sm:mb-5 md:mb-4 lg:mb-6">
+                <span className="text-terminal-accent terminal-glow font-semibold text-xs sm:text-sm md:text-base lg:text-xl xl:text-2xl">
+                  [{category.category.toUpperCase()}]
+                </span>
+                <div className="flex-1 h-px bg-terminal-border" />
+              </div>
+
+              <div className="space-y-3 sm:space-y-4 md:space-y-3 lg:space-y-4">
+                {category.skills.map((skill) => (
+                  <ProgressBar
+                    key={skill.name}
+                    label={skill.name}
+                    percentage={skill.level}
+                    maxWidth={30}
+                    animated={currentSection > catIndex + 2}
+                  />
+                ))}
+              </div>
+            </div>
+          ))}
 
           {/* Summary */}
           {currentSection >= totalSections && (
@@ -246,7 +246,7 @@ export default function Skills() {
                 />
               </div>
               <div className="text-terminal-accent-dim text-xs lg:text-base">
-                Core: {coreSkills.length} | Other: {otherSkillCategories.reduce((acc, cat) => acc + cat.skills.length, 0)} | Languages: {githubLanguages.length}
+                Core: {coreSkills.length} | Languages: {githubLanguages.length} | Other: {otherSkillCategories.reduce((acc, cat) => acc + cat.skills.length, 0)}
               </div>
             </div>
           )}
