@@ -9,6 +9,7 @@ import { TerminalHeader } from "@/components/TerminalHeader";
 import { Navigation } from "@/components/Navigation";
 import { CommandInput } from "@/components/CommandInput";
 import { BootSequence } from "@/components/BootSequence";
+import { AmbientGlitch } from "@/components/AmbientGlitch";
 import { terminalSounds } from "@/utils/sounds";
 import { useEffect, useState, useCallback } from "react";
 import Home from "./pages/Home";
@@ -59,6 +60,7 @@ const AppContent = () => {
   return (
     <BrowserRouter>
       {showBoot && <BootSequence onComplete={handleBootComplete} duration={2000} />}
+      <AmbientGlitch interval={22000} />
       <TerminalWindow>
         <TerminalHeader />
         <Navigation />
