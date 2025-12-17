@@ -217,4 +217,126 @@ All colors MUST be HSL.
       opacity: 0.95;
     }
   }
+
+  /* ========== BOOT SEQUENCE EFFECTS ========== */
+  
+  /* CRT Scanlines for boot */
+  .boot-scanlines::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      hsl(var(--terminal-scanline) / 0.05) 2px,
+      hsl(var(--terminal-scanline) / 0.05) 4px
+    );
+    animation: boot-scanline-move 0.1s linear infinite;
+  }
+  
+  @keyframes boot-scanline-move {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(4px); }
+  }
+
+  /* CRT Flicker */
+  .boot-crt-flicker {
+    background: hsl(var(--terminal-accent) / 0.02);
+    animation: boot-crt 0.08s infinite;
+  }
+  
+  @keyframes boot-crt {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 1; }
+  }
+
+  /* Horizontal glitch lines */
+  .boot-glitch-line-1 {
+    animation: boot-glitch-h 0.3s ease-in-out infinite;
+  }
+  .boot-glitch-line-2 {
+    animation: boot-glitch-h 0.2s ease-in-out infinite reverse;
+    animation-delay: 0.1s;
+  }
+  .boot-glitch-line-3 {
+    animation: boot-glitch-h 0.4s ease-in-out infinite;
+    animation-delay: 0.05s;
+  }
+  
+  @keyframes boot-glitch-h {
+    0%, 100% { top: 10%; transform: scaleX(0); }
+    10% { transform: scaleX(1); }
+    20% { top: 30%; transform: scaleX(0.5); }
+    40% { top: 60%; transform: scaleX(0.8); }
+    60% { top: 45%; transform: scaleX(0.3); }
+    80% { top: 80%; transform: scaleX(0.6); }
+    90% { transform: scaleX(0); }
+  }
+
+  /* RGB Shift */
+  .boot-rgb-shift {
+    animation: boot-rgb 0.15s ease-in-out infinite;
+  }
+  
+  @keyframes boot-rgb {
+    0%, 100% { 
+      text-shadow: none;
+      transform: translate(0, 0);
+    }
+    25% { 
+      text-shadow: -1px 0 hsl(0 100% 50% / 0.3), 1px 0 hsl(200 100% 50% / 0.3);
+      transform: translate(1px, 0);
+    }
+    50% { 
+      text-shadow: 1px 0 hsl(0 100% 50% / 0.2), -1px 0 hsl(200 100% 50% / 0.2);
+      transform: translate(-1px, 0);
+    }
+    75% { 
+      text-shadow: 0 1px hsl(0 100% 50% / 0.3), 0 -1px hsl(200 100% 50% / 0.3);
+      transform: translate(0, 1px);
+    }
+  }
+
+  /* Text jitter */
+  .boot-text-jitter {
+    animation: boot-jitter 0.1s ease-in-out infinite;
+  }
+  
+  @keyframes boot-jitter {
+    0%, 100% { transform: translate(0, 0); }
+    25% { transform: translate(1px, -1px); }
+    50% { transform: translate(-1px, 1px); }
+    75% { transform: translate(1px, 1px); }
+  }
+
+  /* Character glitch (subtle distortion) */
+  .boot-char-glitch {
+    animation: boot-char 0.2s steps(2) infinite;
+  }
+  
+  @keyframes boot-char {
+    0%, 100% { opacity: 1; filter: none; }
+    50% { opacity: 0.8; filter: blur(0.5px); }
+  }
+
+  /* Noise overlay */
+  .boot-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    animation: boot-noise-anim 0.2s steps(3) infinite;
+  }
+  
+  @keyframes boot-noise-anim {
+    0%, 100% { transform: translate(0, 0); }
+    33% { transform: translate(-5%, -5%); }
+    66% { transform: translate(5%, 5%); }
+  }
+
+  /* Vignette effect */
+  .boot-vignette {
+    background: radial-gradient(ellipse at center, transparent 40%, hsl(0 0% 0% / 0.6) 100%);
+  }
 }
