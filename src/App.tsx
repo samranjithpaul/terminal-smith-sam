@@ -8,8 +8,9 @@ import { TerminalWindow } from "@/components/TerminalWindow";
 import { TerminalHeader } from "@/components/TerminalHeader";
 import { Navigation } from "@/components/Navigation";
 import { CommandInput } from "@/components/CommandInput";
+import { BootSequence } from "@/components/BootSequence";
 import { terminalSounds } from "@/utils/sounds";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Skills from "./pages/Skills";
@@ -19,15 +20,29 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
+// Check if boot sequence has been shown this session
+const BOOT_SHOWN_KEY = 'terminal_boot_shown';
+
 const AppContent = () => {
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [showBoot, setShowBoot] = useState(() => {
+    // Only show boot on first visit per session
+    return !sessionStorage.getItem(BOOT_SHOWN_KEY);
+  });
+
+  const handleBootComplete = useCallback(() => {
+    sessionStorage.setItem(BOOT_SHOWN_KEY, 'true');
+    setShowBoot(false);
+  }, []);
 
   useEffect(() => {
     const handleFirstInteraction = () => {
       if (!hasInteracted) {
         setHasInteracted(true);
-        // Play boot sound on first user interaction
-        setTimeout(() => terminalSounds.playBootSound(), 100);
+        // Play boot sound on first user interaction (after boot sequence)
+        if (!showBoot) {
+          setTimeout(() => terminalSounds.playBootSound(), 100);
+        }
       }
     };
 
@@ -39,23 +54,24 @@ const AppContent = () => {
       document.removeEventListener('click', handleFirstInteraction);
       document.removeEventListener('keydown', handleFirstInteraction);
     };
-  }, [hasInteracted]);
+  }, [hasInteracted, showBoot]);
 
   return (
     <BrowserRouter>
-          <TerminalWindow>
-            <TerminalHeader />
-            <Navigation />
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/skills" element={<Skills />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-            <CommandInput />
-          </TerminalWindow>
+      {showBoot && <BootSequence onComplete={handleBootComplete} duration={2000} />}
+      <TerminalWindow>
+        <TerminalHeader />
+        <Navigation />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/skills" element={<Skills />} />
+          <Route path="/projects" element={<Projects />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+        <CommandInput />
+      </TerminalWindow>
     </BrowserRouter>
   );
 };
