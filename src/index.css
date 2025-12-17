@@ -346,7 +346,15 @@ All colors MUST be HSL.
     inset: 0;
     pointer-events: none;
     z-index: 9998;
-    mix-blend-mode: overlay;
+  }
+
+  /* Phosphor intensity spike - brief brightness boost */
+  .ambient-glitch-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: hsl(var(--terminal-green) / 0.03);
+    animation: phosphor-spike 0.2s ease-out;
   }
 
   .ambient-scanline {
@@ -356,32 +364,40 @@ All colors MUST be HSL.
       0deg,
       transparent,
       transparent 2px,
-      hsl(var(--terminal-scanline) / 0.008) 2px,
-      hsl(var(--terminal-scanline) / 0.008) 4px
+      hsl(var(--terminal-scanline) / 0.015) 2px,
+      hsl(var(--terminal-scanline) / 0.015) 4px
     );
-    animation: ambient-scanline-flicker 0.2s ease-out;
+    animation: scanline-phase-shift 0.25s steps(3);
   }
 
   .ambient-noise {
     position: absolute;
     inset: 0;
-    opacity: 0.015;
+    opacity: 0.012;
     background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
     animation: ambient-noise-shift 0.2s steps(2);
   }
 
-  @keyframes ambient-scanline-flicker {
+  /* Single-frame phosphor brightness spike */
+  @keyframes phosphor-spike {
     0% { opacity: 0; }
-    20% { opacity: 1; }
-    40% { opacity: 0.5; }
-    60% { opacity: 0.8; }
-    80% { opacity: 0.3; }
+    15% { opacity: 1; }
+    30% { opacity: 0.4; }
+    50% { opacity: 0.7; }
     100% { opacity: 0; }
   }
 
+  /* Scanline phase shift - vertical position change, not opacity */
+  @keyframes scanline-phase-shift {
+    0% { background-position-y: 0; }
+    33% { background-position-y: 1px; }
+    66% { background-position-y: -1px; }
+    100% { background-position-y: 0; }
+  }
+
   @keyframes ambient-noise-shift {
-    0% { transform: translate(0, 0); opacity: 0.015; }
-    50% { transform: translate(-2%, -2%); opacity: 0.02; }
+    0% { transform: translate(0, 0); opacity: 0.012; }
+    50% { transform: translate(-1%, -1%); opacity: 0.018; }
     100% { transform: translate(0, 0); opacity: 0; }
   }
 }
