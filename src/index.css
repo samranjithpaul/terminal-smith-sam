@@ -409,7 +409,7 @@ All colors MUST be HSL.
     z-index: 9997;
   }
 
-  /* Horizontal interference lines */
+  /* Faint horizontal scanline drift */
   .signal-interference-lines {
     position: absolute;
     inset: 0;
@@ -417,65 +417,61 @@ All colors MUST be HSL.
     background: repeating-linear-gradient(
       0deg,
       transparent 0px,
-      transparent 3px,
-      hsl(var(--terminal-green) / 0.04) 3px,
-      hsl(var(--terminal-green) / 0.04) 4px,
       transparent 4px,
-      transparent 8px
+      hsl(var(--terminal-scanline) / 0.02) 4px,
+      hsl(var(--terminal-scanline) / 0.02) 5px,
+      transparent 5px,
+      transparent 10px
     );
-    transition: opacity 0.3s ease-out;
+    transition: opacity 0.4s ease-out;
   }
 
-  /* Noise layer */
+  /* Subtle noise layer */
   .signal-noise-layer {
     position: absolute;
     inset: 0;
     opacity: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    transition: opacity 0.3s ease-out;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    transition: opacity 0.4s ease-out;
   }
 
-  /* Phosphor glow overlay */
+  /* Luminance flicker overlay (no color) */
   .signal-phosphor-glow {
     position: absolute;
     inset: 0;
     opacity: 0;
-    background: radial-gradient(
-      ellipse at center,
-      hsl(var(--terminal-green) / 0.03) 0%,
-      transparent 70%
-    );
-    transition: opacity 0.3s ease-out;
+    background: hsl(var(--terminal-scanline) / 0.015);
+    transition: opacity 0.4s ease-out;
   }
 
-  /* Phase 1: Entry (subtle introduction) */
+  /* Phase 1: Entry (gentle introduction) */
   .signal-glitch-entry .signal-interference-lines {
-    opacity: 0.3;
-    animation: signal-line-drift 0.4s ease-out;
+    opacity: 0.4;
+    animation: signal-scanline-drift 0.4s ease-out;
   }
   
   .signal-glitch-entry .signal-phosphor-glow {
-    opacity: 0.5;
-    animation: phosphor-fluctuate 0.4s ease-out;
+    opacity: 1;
+    animation: luminance-flicker-entry 0.4s ease-out;
   }
 
-  /* Phase 2: Peak (full effect) */
+  /* Phase 2: Peak (subtle sustained effect) */
   .signal-glitch-peak .signal-interference-lines {
-    opacity: 0.6;
-    animation: signal-line-scroll 1s steps(4) infinite;
+    opacity: 0.5;
+    animation: signal-scanline-scroll 1.2s linear infinite;
   }
   
   .signal-glitch-peak .signal-noise-layer {
-    opacity: 0.025;
-    animation: signal-noise-jitter 0.1s steps(2) infinite;
+    opacity: 0.015;
+    animation: signal-noise-subtle 0.15s steps(2) infinite;
   }
   
   .signal-glitch-peak .signal-phosphor-glow {
-    opacity: 0.8;
-    animation: phosphor-pulse 0.5s ease-in-out infinite;
+    opacity: 1;
+    animation: luminance-flicker-peak 0.6s ease-in-out infinite;
   }
 
-  /* Phase 3: Recovery (smooth fade out) */
+  /* Phase 3: Recovery (smooth clean exit) */
   .signal-glitch-recovery .signal-interference-lines {
     opacity: 0;
     transition: opacity 0.6s ease-out;
@@ -491,49 +487,49 @@ All colors MUST be HSL.
     transition: opacity 0.6s ease-out;
   }
 
-  /* Signal glitch animations */
-  @keyframes signal-line-drift {
+  /* Scanline drift animation - faint vertical movement */
+  @keyframes signal-scanline-drift {
     0% { background-position-y: 0; opacity: 0; }
-    50% { background-position-y: 2px; opacity: 0.4; }
-    100% { background-position-y: 0; opacity: 0.3; }
+    40% { background-position-y: 1px; opacity: 0.5; }
+    100% { background-position-y: 0; opacity: 0.4; }
   }
 
-  @keyframes signal-line-scroll {
+  @keyframes signal-scanline-scroll {
     0% { background-position-y: 0; }
-    25% { background-position-y: 2px; }
-    50% { background-position-y: -1px; }
-    75% { background-position-y: 1px; }
-    100% { background-position-y: 0; }
+    100% { background-position-y: 10px; }
   }
 
-  @keyframes signal-noise-jitter {
+  @keyframes signal-noise-subtle {
     0% { transform: translate(0, 0); }
-    50% { transform: translate(-0.5%, -0.5%); }
-    100% { transform: translate(0.5%, 0); }
+    50% { transform: translate(-0.3%, -0.2%); }
+    100% { transform: translate(0.2%, 0); }
   }
 
-  @keyframes phosphor-fluctuate {
+  /* Luminance flicker - brightness only, no color shift */
+  @keyframes luminance-flicker-entry {
     0% { opacity: 0; }
-    30% { opacity: 0.6; }
-    60% { opacity: 0.3; }
-    100% { opacity: 0.5; }
+    25% { opacity: 0.8; }
+    50% { opacity: 0.4; }
+    75% { opacity: 0.6; }
+    100% { opacity: 1; }
   }
 
-  @keyframes phosphor-pulse {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 0.9; }
+  @keyframes luminance-flicker-peak {
+    0%, 100% { opacity: 0.8; }
+    30% { opacity: 1; }
+    60% { opacity: 0.7; }
+    80% { opacity: 0.95; }
   }
 
-  /* Text jitter effect - apply to body during glitch */
+  /* Micro text jitter - ≤1px movement */
   .signal-glitch-entry ~ * .terminal-text,
   .signal-glitch-peak ~ * .terminal-text {
-    animation: text-micro-jitter 0.15s steps(2) infinite;
+    animation: text-micro-jitter 0.12s steps(3) infinite;
   }
 
   @keyframes text-micro-jitter {
     0%, 100% { transform: translate(0, 0); }
-    25% { transform: translate(0.5px, 0); }
-    50% { transform: translate(-0.5px, 0.5px); }
-    75% { transform: translate(0.5px, -0.5px); }
+    33% { transform: translate(0.3px, 0); }
+    66% { transform: translate(-0.3px, 0.2px); }
   }
 }
