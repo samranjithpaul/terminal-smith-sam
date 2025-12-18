@@ -22,6 +22,17 @@ export const SignalGlitch = ({ interval = 15000, duration = 2000 }: SignalGlitch
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
+  // Apply/remove glitch class on body
+  useEffect(() => {
+    if (phase === 'idle') {
+      document.body.classList.remove('signal-glitch-active', 'signal-glitch-entry', 'signal-glitch-peak', 'signal-glitch-recovery');
+    } else {
+      document.body.classList.add('signal-glitch-active');
+      document.body.classList.remove('signal-glitch-entry', 'signal-glitch-peak', 'signal-glitch-recovery');
+      document.body.classList.add(`signal-glitch-${phase}`);
+    }
+  }, [phase]);
+
   const triggerGlitch = useCallback(() => {
     if (!isEnabled) return;
     
@@ -71,19 +82,21 @@ export const SignalGlitch = ({ interval = 15000, duration = 2000 }: SignalGlitch
     return () => {
       clearInterval(intervalId);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
+      // Clean up body classes
+      document.body.classList.remove('signal-glitch-active', 'signal-glitch-entry', 'signal-glitch-peak', 'signal-glitch-recovery');
     };
   }, [interval, triggerGlitch, isEnabled]);
 
   if (!isEnabled || phase === 'idle') return null;
 
+  // Overlay for noise and scanlines only
   return (
     <div 
-      className={`signal-glitch-overlay signal-glitch-${phase}`} 
+      className="signal-glitch-overlay" 
       aria-hidden="true"
     >
       <div className="signal-interference-lines" />
       <div className="signal-noise-layer" />
-      <div className="signal-phosphor-glow" />
     </div>
   );
 };
