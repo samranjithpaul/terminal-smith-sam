@@ -62,7 +62,7 @@ const AppContent = () => {
     <BrowserRouter>
       {showBoot && <BootSequence onComplete={handleBootComplete} duration={2000} />}
       <AmbientGlitch interval={22000} />
-      <SignalGlitch interval={15000} duration={2000} />
+      <SignalGlitch interval={20000} duration={1500} />
       <TerminalWindow>
         <TerminalHeader />
         <Navigation />

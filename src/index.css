@@ -405,76 +405,72 @@ All colors MUST be HSL.
   
   /* Base body transition for smooth glitch */
   body {
-    transition: filter 0.3s ease-out, transform 0.15s ease-out;
+    transition: filter 0.4s ease-out, transform 0.2s ease-out;
   }
   
-  /* Green scan line via pseudo-element */
+  /* Scan line using terminal accent color */
   body.signal-glitch-active::before {
     content: '';
     position: fixed;
-    top: 0;
+    top: 15%;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 2px;
     background: linear-gradient(
       90deg,
       transparent 0%,
-      hsl(150 100% 55% / 0.4) 20%,
-      hsl(150 100% 55% / 0.8) 50%,
-      hsl(150 100% 55% / 0.4) 80%,
+      hsl(var(--terminal-accent) / 0.3) 15%,
+      hsl(var(--terminal-accent) / 0.6) 50%,
+      hsl(var(--terminal-accent) / 0.3) 85%,
       transparent 100%
     );
-    box-shadow: 
-      0 0 15px hsl(150 100% 55% / 0.6),
-      0 0 30px hsl(150 100% 55% / 0.3);
+    box-shadow: 0 0 8px hsl(var(--terminal-accent) / 0.4);
     z-index: 9999;
     pointer-events: none;
-    animation: scanline-move 2s ease-out forwards;
+    animation: scanline-drift 1.5s ease-out forwards;
   }
   
-  @keyframes scanline-move {
-    0% { top: 10%; opacity: 0; }
-    10% { opacity: 1; }
-    30% { top: 25%; }
-    50% { top: 40%; opacity: 0.9; }
-    70% { top: 55%; opacity: 0.7; }
-    85% { top: 70%; opacity: 0.4; }
-    100% { top: 85%; opacity: 0; }
+  @keyframes scanline-drift {
+    0% { top: 12%; opacity: 0; }
+    8% { opacity: 0.8; }
+    25% { top: 28%; opacity: 0.7; }
+    50% { top: 45%; opacity: 0.5; }
+    75% { top: 62%; opacity: 0.3; }
+    90% { top: 75%; opacity: 0.1; }
+    100% { top: 82%; opacity: 0; }
   }
   
-  /* Phase 1: Entry - fast horizontal desync (150-200ms) */
+  /* Phase 1: Entry - quick signal tear (150-200ms) */
   body.signal-glitch-entry {
-    filter: brightness(1.15) contrast(1.2);
-    animation: glitch-desync-entry 0.2s steps(4);
+    filter: brightness(1.1) contrast(1.15);
+    animation: glitch-desync-entry 0.18s steps(3);
   }
   
-  /* Phase 2: Peak - sustained CRT desync */
+  /* Phase 2: Peak - subtle sustained desync */
   body.signal-glitch-peak {
-    filter: brightness(1.12) contrast(1.15);
-    animation: glitch-desync-peak 0.12s steps(3) infinite;
+    filter: brightness(1.08) contrast(1.12);
+    animation: glitch-desync-peak 0.15s steps(2) infinite;
   }
   
-  /* Phase 3: Recovery - smooth fade back */
+  /* Phase 3: Recovery - slow clean fade */
   body.signal-glitch-recovery {
     filter: brightness(1) contrast(1);
     transform: translateX(0) translateY(0);
-    transition: filter 0.6s ease-out, transform 0.4s ease-out;
+    transition: filter 0.8s ease-out, transform 0.6s ease-out;
   }
   
   /* Entry desync - horizontal primary, minimal vertical */
   @keyframes glitch-desync-entry {
-    0% { transform: translateX(0) translateY(0); filter: brightness(1) contrast(1); }
-    25% { transform: translateX(-3px) translateY(0.5px); filter: brightness(1.18) contrast(1.22); }
-    50% { transform: translateX(2px) translateY(-0.5px); filter: brightness(1.1) contrast(1.18); }
-    75% { transform: translateX(-2px) translateY(0.5px); filter: brightness(1.2) contrast(1.25); }
-    100% { transform: translateX(1px) translateY(0); filter: brightness(1.15) contrast(1.2); }
-  }
-  
-  /* Peak desync - continuous horizontal shift */
-  @keyframes glitch-desync-peak {
-    0%, 100% { transform: translateX(0) translateY(0); }
+    0% { transform: translateX(0) translateY(0); }
     33% { transform: translateX(-2px) translateY(0.5px); }
     66% { transform: translateX(2px) translateY(-0.5px); }
+    100% { transform: translateX(0) translateY(0); }
+  }
+  
+  /* Peak desync - gentle horizontal drift */
+  @keyframes glitch-desync-peak {
+    0%, 100% { transform: translateX(0) translateY(0); }
+    50% { transform: translateX(-1.5px) translateY(0.5px); }
   }
 
   /* Overlay for scanlines and noise */
@@ -484,14 +480,14 @@ All colors MUST be HSL.
     pointer-events: none;
     z-index: 9997;
     opacity: 0;
-    transition: opacity 0.2s ease-out;
+    transition: opacity 0.15s ease-out;
   }
   
   body.signal-glitch-active .signal-glitch-overlay {
     opacity: 1;
   }
 
-  /* Horizontal scanline interference texture */
+  /* Horizontal scanline texture */
   .signal-interference-lines {
     position: absolute;
     inset: 0;
@@ -499,13 +495,13 @@ All colors MUST be HSL.
     background: repeating-linear-gradient(
       0deg,
       transparent 0px,
-      transparent 2px,
-      hsl(var(--terminal-scanline) / 0.08) 2px,
-      hsl(var(--terminal-scanline) / 0.08) 3px,
       transparent 3px,
-      transparent 6px
+      hsl(var(--terminal-accent) / 0.04) 3px,
+      hsl(var(--terminal-accent) / 0.04) 4px,
+      transparent 4px,
+      transparent 8px
     );
-    transition: opacity 0.2s ease-out;
+    transition: opacity 0.15s ease-out;
   }
 
   /* Noise layer */
@@ -513,54 +509,38 @@ All colors MUST be HSL.
     position: absolute;
     inset: 0;
     opacity: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    transition: opacity 0.2s ease-out;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    transition: opacity 0.15s ease-out;
   }
 
-  /* Phase 1: Entry overlay effects */
+  /* Phase 1: Entry overlay */
   body.signal-glitch-entry .signal-interference-lines {
-    opacity: 0.6;
-    animation: scanlines-shift 0.2s steps(3);
+    opacity: 0.4;
   }
 
-  /* Phase 2: Peak overlay effects */
+  /* Phase 2: Peak overlay */
   body.signal-glitch-peak .signal-interference-lines {
-    opacity: 0.5;
-    animation: scanlines-scroll 0.6s linear infinite;
+    opacity: 0.3;
+    animation: scanlines-scroll 0.8s linear infinite;
   }
   
   body.signal-glitch-peak .signal-noise-layer {
-    opacity: 0.035;
-    animation: noise-shift 0.08s steps(2) infinite;
+    opacity: 0.025;
   }
 
-  /* Phase 3: Recovery overlay effects */
+  /* Phase 3: Recovery overlay */
   body.signal-glitch-recovery .signal-interference-lines {
     opacity: 0;
-    transition: opacity 0.6s ease-out;
+    transition: opacity 0.8s ease-out;
   }
   
   body.signal-glitch-recovery .signal-noise-layer {
     opacity: 0;
-    transition: opacity 0.6s ease-out;
-  }
-
-  /* Scanline animations */
-  @keyframes scanlines-shift {
-    0% { background-position: 0 0; opacity: 0; }
-    30% { background-position: 2px 0; opacity: 0.7; }
-    60% { background-position: -1px 0; opacity: 0.5; }
-    100% { background-position: 0 0; opacity: 0.6; }
+    transition: opacity 0.8s ease-out;
   }
 
   @keyframes scanlines-scroll {
     0% { background-position-y: 0; }
-    100% { background-position-y: 6px; }
-  }
-
-  @keyframes noise-shift {
-    0% { transform: translateX(0); }
-    50% { transform: translateX(-0.5%); }
-    100% { transform: translateX(0.3%); }
+    100% { background-position-y: 8px; }
   }
 }
