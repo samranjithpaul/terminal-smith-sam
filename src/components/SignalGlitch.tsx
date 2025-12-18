@@ -36,18 +36,18 @@ export const SignalGlitch = ({ interval = 15000, duration = 2000 }: SignalGlitch
   const triggerGlitch = useCallback(() => {
     if (!isEnabled) return;
     
-    // Phase 1: Entry (0-400ms)
+    // Phase 1: Entry (0-200ms)
     setPhase('entry');
     
     setTimeout(() => {
-      // Phase 2: Peak (400-1400ms)
+      // Phase 2: Peak (200-900ms)
       setPhase('peak');
-    }, 400);
+    }, 200);
     
     setTimeout(() => {
-      // Phase 3: Recovery (1400-2000ms)
+      // Phase 3: Recovery (900-1500ms)
       setPhase('recovery');
-    }, 1400);
+    }, 900);
     
     setTimeout(() => {
       // Back to idle
