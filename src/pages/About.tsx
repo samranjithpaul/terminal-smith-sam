@@ -50,7 +50,7 @@ export default function About() {
             {[
               { icon: Github, label: 'GitHub', url: 'https://github.com/samranjithpaul', handle: '@samranjithpaul' },
               { icon: Linkedin, label: 'LinkedIn', url: 'https://linkedin.com/in/samranjithpaul', handle: '/samranjithpaul' },
-              { icon: Mail, label: 'Email', url: 'mailto:sam@example.com', handle: 'sam@example.com' },
+              { icon: Mail, label: 'Email', url: 'mailto:samranjithpaul71@gmail.com', handle: 'samranjithpaul71@gmail.com' },
             ].map(({ icon: Icon, label, url, handle }) => (
               <a
                 key={label}

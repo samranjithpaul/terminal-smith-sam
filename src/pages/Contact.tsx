@@ -67,8 +67,8 @@ export default function Contact() {
                 {
                   icon: Mail,
                   label: 'Email',
-                  value: 'sam@example.com',
-                  href: 'mailto:sam@example.com',
+                  value: 'samranjithpaul71@gmail.com',
+                  href: 'mailto:samranjithpaul71@gmail.com',
                 },
                 {
                   icon: Github,
