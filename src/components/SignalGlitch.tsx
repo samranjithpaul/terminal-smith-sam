@@ -1,13 +1,17 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 
 interface SignalGlitchProps {
-  interval?: number; // ms between glitches
   duration?: number; // total duration in ms
 }
 
-export const SignalGlitch = ({ interval = 15000, duration = 2000 }: SignalGlitchProps) => {
+// Non-uniform interval pattern in seconds: [8, 4, 8, 8, 2, 4] → loop
+const INTERVAL_PATTERN = [8000, 4000, 8000, 8000, 2000, 4000];
+
+export const SignalGlitch = ({ duration = 1500 }: SignalGlitchProps) => {
   const [phase, setPhase] = useState<'idle' | 'entry' | 'peak' | 'recovery'>('idle');
   const [isEnabled, setIsEnabled] = useState(true);
+  const patternIndexRef = useRef(0);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Check for reduced motion preference
   useEffect(() => {
@@ -36,18 +40,18 @@ export const SignalGlitch = ({ interval = 15000, duration = 2000 }: SignalGlitch
   const triggerGlitch = useCallback(() => {
     if (!isEnabled) return;
     
-    // Phase 1: Entry (0-200ms)
+    // Phase 1: Entry (0-200ms) - quick signal tear
     setPhase('entry');
     
     setTimeout(() => {
-      // Phase 2: Peak (200-900ms)
+      // Phase 2: Peak (200-700ms)
       setPhase('peak');
     }, 200);
     
     setTimeout(() => {
-      // Phase 3: Recovery (900-1500ms)
+      // Phase 3: Recovery (700-1500ms) - smooth fade out
       setPhase('recovery');
-    }, 900);
+    }, 700);
     
     setTimeout(() => {
       // Back to idle
@@ -55,37 +59,52 @@ export const SignalGlitch = ({ interval = 15000, duration = 2000 }: SignalGlitch
     }, duration);
   }, [isEnabled, duration]);
 
+  const scheduleNextGlitch = useCallback(() => {
+    if (!isEnabled) return;
+
+    const currentInterval = INTERVAL_PATTERN[patternIndexRef.current];
+    
+    timeoutRef.current = setTimeout(() => {
+      triggerGlitch();
+      
+      // After glitch completes, advance pattern and schedule next
+      setTimeout(() => {
+        patternIndexRef.current = (patternIndexRef.current + 1) % INTERVAL_PATTERN.length;
+        scheduleNextGlitch();
+      }, duration);
+    }, currentInterval);
+  }, [isEnabled, triggerGlitch, duration]);
+
   useEffect(() => {
     if (!isEnabled) return;
 
-    let intervalId: ReturnType<typeof setInterval>;
-    
-    const startInterval = () => {
-      intervalId = setInterval(triggerGlitch, interval);
-    };
-
     const handleVisibilityChange = () => {
       if (document.hidden) {
-        clearInterval(intervalId);
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
         setPhase('idle');
       } else {
-        startInterval();
+        scheduleNextGlitch();
       }
     };
 
-    // Start the interval
-    startInterval();
+    // Start the scheduled loop
+    scheduleNextGlitch();
     
     // Listen for visibility changes
     document.addEventListener('visibilitychange', handleVisibilityChange);
 
     return () => {
-      clearInterval(intervalId);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
       document.removeEventListener('visibilitychange', handleVisibilityChange);
       // Clean up body classes
       document.body.classList.remove('signal-glitch-active', 'signal-glitch-entry', 'signal-glitch-peak', 'signal-glitch-recovery');
     };
-  }, [interval, triggerGlitch, isEnabled]);
+  }, [scheduleNextGlitch, isEnabled]);
 
   if (!isEnabled || phase === 'idle') return null;
 
