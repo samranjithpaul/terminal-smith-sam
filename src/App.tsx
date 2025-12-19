@@ -22,19 +22,15 @@ import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
-// Check if boot sequence has been shown this session
-const BOOT_SHOWN_KEY = 'terminal_boot_shown';
-
 const AppContent = () => {
   const [hasInteracted, setHasInteracted] = useState(false);
-  const [showBoot, setShowBoot] = useState(() => {
-    // Only show boot on first visit per session
-    return !sessionStorage.getItem(BOOT_SHOWN_KEY);
-  });
+  const [showBoot, setShowBoot] = useState(true); // Always show boot on refresh
+  const [ambientGlitchEnabled, setAmbientGlitchEnabled] = useState(false);
 
   const handleBootComplete = useCallback(() => {
-    sessionStorage.setItem(BOOT_SHOWN_KEY, 'true');
     setShowBoot(false);
+    // Start ambient glitch AFTER boot completes
+    setAmbientGlitchEnabled(true);
   }, []);
 
   useEffect(() => {
@@ -61,8 +57,8 @@ const AppContent = () => {
   return (
     <BrowserRouter>
       {showBoot && <BootSequence onComplete={handleBootComplete} duration={2000} />}
-      <AmbientGlitch interval={22000} />
-      <SignalGlitch interval={20000} duration={1500} />
+      {ambientGlitchEnabled && <AmbientGlitch interval={22000} />}
+      {ambientGlitchEnabled && <SignalGlitch duration={1500} />}
       <TerminalWindow>
         <TerminalHeader />
         <Navigation />
